@@ -68,11 +68,8 @@ struct IncomingDoubleLineMessage: View {
                         .foregroundColor(.gray)
                         .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
                     Spacer()
-<<<<<<< Updated upstream
               //      EmojiButton() // Add EmojiButton here
                        // .foregroundColor(.gray)
-=======
->>>>>>> Stashed changes
                 }
             }
             Image("incomingTail")
@@ -92,12 +89,9 @@ struct IncomingDoubleLineMessage: View {
 struct MessengerView: View {
     let service = Service() // Create an instance of the Service class
     let senderName: String
-<<<<<<< Updated upstream
-    @State private var messages: [MessagesStructure] = MessageData
-=======
+    let conversationId: String
     @State private var messages: [MessagesStructure] = []
     @Environment(\.presentationMode) var presentationMode
->>>>>>> Stashed changes
 
     var body: some View {
         VStack {
@@ -153,7 +147,7 @@ struct MessengerView: View {
         .navigationBarBackButtonHidden(true) // Hide the automatic back button
         .onAppear {
             // Fetch messages when the view appears
-            service.fetchMessages(conversationId: "660933c3b45a0d96d7845856") { json, error in
+            service.fetchMessages(conversationId: conversationId) { json, error in
                 if let error = error {
                     print("Error fetching messages: \(error)")
                     return

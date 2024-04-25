@@ -7,31 +7,28 @@ struct User: Identifiable {
 }
 
 struct Conversation: Identifiable {
-    let id = UUID()
-    let user: User
+    let id : String
+    let participantName: String
     let lastMessage: String
     let timestamp: Date
 }
 
 struct ContentView: View {
     @State private var searchText = ""
-    @State private var conversations: [Conversation] = [
-        Conversation(user: User(name: "Alice", status: "Online"), lastMessage: "Hello!", timestamp: Date()),
-        Conversation(user: User(name: "Bob", status: "Offline"), lastMessage: "Hi there!", timestamp: Date()),
-        Conversation(user: User(name: "Charlie", status: "Online"), lastMessage: "Hey!", timestamp: Date()),
-        // Add more conversations as needed
-    ]
+    @State private var conversations: [Conversation] = []
     @State private var conversationToDelete: Conversation? = nil
     @State private var showingDeleteAlert = false
+    
+    let service = Service() // Create an instance of the Service class
     
     var filteredConversations: [Conversation] {
         if searchText.isEmpty {
             return conversations
         } else {
-            return conversations.filter { $0.user.name.localizedCaseInsensitiveContains(searchText) }
+            return conversations.filter { $0.participantName.localizedCaseInsensitiveContains(searchText) }
         }
     }
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -39,7 +36,7 @@ struct ContentView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(users) { user in
-                            NavigationLink(destination: MessengerView(senderName: user.name)) {
+                            NavigationLink(destination: MessengerView(senderName: user.name, conversationId:"test" )) {
                                 UserView(user: user)
                                     .padding(.horizontal, 10)
                             }
@@ -52,7 +49,7 @@ struct ContentView: View {
                 
                 List {
                     ForEach(filteredConversations) { conversation in
-                        NavigationLink(destination: MessengerView(senderName: conversation.user.name)){
+                        NavigationLink(destination: MessengerView(senderName: conversation.participantName, conversationId:conversation.id)) {
                             ConversationRow(conversation: conversation)
                         }
                         .swipeActions {
@@ -80,6 +77,37 @@ struct ContentView: View {
                         }
                     }
                 )
+            }
+            .onAppear {
+                // Fetch conversations when the view appears
+                service.fetchConversations(currentUser: service.currentUser) { json, error in
+                    if let error = error {
+                        print("Error fetching conversations: \(error)")
+                        return
+                    }
+
+                    if let json = json {
+                        // Parse JSON and update conversations array
+                        let conversationD = json.first // Assign the entire JSON response to conversationD
+                                             if let conversationsData = json.first?["messages"] as? [[String: Any]] {
+                            self.conversations = conversationsData.compactMap { conversationData in
+                                let participants = conversationD?["participants"] as? [String] ?? ["", ""]
+                                let participantName = participants.first(where: { $0 != service.currentUser }) ?? ""
+                                let convId = conversationD?["_id"] as? String ?? "" // Get the conversation ID
+
+                                print(participants)
+                                print(participantName)
+                                
+                                return Conversation(
+                                    id:convId ,
+                                    participantName: participantName,
+                                    lastMessage: conversationData["content"] as? String ?? "",
+                                    timestamp: Date() // You can parse the timestamp here
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -122,7 +150,7 @@ struct ConversationRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(conversation.user.name)
+                Text(conversation.participantName)
                     .font(.headline)
                 Text(conversation.lastMessage)
                     .foregroundColor(.gray)
