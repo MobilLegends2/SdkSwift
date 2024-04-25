@@ -69,6 +69,7 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("CrossChat")
+            .navigationBarBackButtonHidden(true)
             .alert(isPresented: $showingDeleteAlert) {
                 Alert(
                     title: Text("Delete Conversation"),
@@ -177,5 +178,6 @@ struct ConversationDetailView: View {
     var body: some View {
         Text("Conversation with \(user.name)")
             .navigationTitle(user.name)
+            .navigationBarHidden(true)
     }
 }
