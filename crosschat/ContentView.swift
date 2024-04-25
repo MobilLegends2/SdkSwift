@@ -39,7 +39,7 @@ struct ContentView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(users) { user in
-                            NavigationLink(destination: ConversationDetailView(user: user)) {
+                            NavigationLink(destination: MessengerView(senderName: "Arafet")) {
                                 UserView(user: user)
                                     .padding(.horizontal, 10)
                             }

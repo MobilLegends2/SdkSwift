@@ -105,12 +105,12 @@
 			isa = PBXGroup;
 			children = (
 				D133B24E2BDAE06F00859A26 /* crosschatApp.swift */,
-				D133B2502BDAE06F00859A26 /* ContentView.swift */,
 				D133B2522BDAE07000859A26 /* Assets.xcassets */,
 				D133B2572BDAE07000859A26 /* Persistence.swift */,
 				D133B2592BDAE07000859A26 /* crosschat.xcdatamodeld */,
 				D133B2542BDAE07000859A26 /* Preview Content */,
 				D133B27D2BDAE29B00859A26 /* ChatsView.swift */,
+				D133B2502BDAE06F00859A26 /* ContentView.swift */,
 				D133B27F2BDAE31300859A26 /* MessengerView.swift */,
 				D133B2812BDAE54400859A26 /* MessagesDataModel.swift */,
 			);
