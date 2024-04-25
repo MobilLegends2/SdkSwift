@@ -14,7 +14,7 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 Spacer()
-                NavigationLink(destination: ChatView()) {
+                NavigationLink(destination: MessengerView(senderName: "Arafet")) {
                     Text("Chats")
                         .font(.title)
                         .foregroundColor(.blue)
@@ -29,15 +29,4 @@ struct ContentView: View {
     }
 }
 
-struct ChatView: View {
-    var body: some View {
-        Text("Chat View")
-            .navigationBarTitle("Chats")
-    }
-}
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}

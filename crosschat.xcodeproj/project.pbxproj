@@ -18,6 +18,7 @@
 		D133B2712BDAE07000859A26 /* crosschatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2702BDAE07000859A26 /* crosschatUITestsLaunchTests.swift */; };
 		D133B27E2BDAE29B00859A26 /* ChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B27D2BDAE29B00859A26 /* ChatsView.swift */; };
 		D133B2802BDAE31300859A26 /* MessengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B27F2BDAE31300859A26 /* MessengerView.swift */; };
+		D133B2822BDAE54400859A26 /* MessagesDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2812BDAE54400859A26 /* MessagesDataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		D133B2702BDAE07000859A26 /* crosschatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crosschatUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D133B27D2BDAE29B00859A26 /* ChatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsView.swift; sourceTree = "<group>"; };
 		D133B27F2BDAE31300859A26 /* MessengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerView.swift; sourceTree = "<group>"; };
+		D133B2812BDAE54400859A26 /* MessagesDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesDataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				D133B2542BDAE07000859A26 /* Preview Content */,
 				D133B27D2BDAE29B00859A26 /* ChatsView.swift */,
 				D133B27F2BDAE31300859A26 /* MessengerView.swift */,
+				D133B2812BDAE54400859A26 /* MessagesDataModel.swift */,
 			);
 			path = crosschat;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D133B2802BDAE31300859A26 /* MessengerView.swift in Sources */,
+				D133B2822BDAE54400859A26 /* MessagesDataModel.swift in Sources */,
 				D133B25B2BDAE07000859A26 /* crosschat.xcdatamodeld in Sources */,
 				D133B2582BDAE07000859A26 /* Persistence.swift in Sources */,
 				D133B27E2BDAE29B00859A26 /* ChatsView.swift in Sources */,
