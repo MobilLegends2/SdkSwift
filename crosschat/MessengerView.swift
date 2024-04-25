@@ -4,7 +4,8 @@ import SwiftUI
 struct OutgoingDoubleLineMessage: View {
     let message: MessagesStructure
     let outgoingBubble = Color(#colorLiteral(red: 0.03921568627, green: 0.5176470588, blue: 1, alpha: 1))
-    
+    let senderName = "Arafet"
+
     var body: some View {
         HStack {
             Spacer()
@@ -27,7 +28,8 @@ struct OutgoingDoubleLineMessage: View {
                 .frame(width: 10, height: 10)
                 .padding(.trailing, -5)
             if message.sender == "You" {
-                EmojiButton()
+                Image(systemName: "person.circle.fill")
+                    .font(.title)
                     .foregroundColor(.blue)
             }
         }
@@ -35,10 +37,12 @@ struct OutgoingDoubleLineMessage: View {
 }
 
 // View for incoming message
+// View for incoming message
 struct IncomingDoubleLineMessage: View {
     let message: MessagesStructure
     let incomingBubble = Color.gray
-
+    @State private var isEmojiPickerPresented = false // Add state for emoji picker
+    
     var body: some View {
         HStack {
             if message.sender != "You" {
@@ -52,66 +56,21 @@ struct IncomingDoubleLineMessage: View {
                     .padding(8)
                     .foregroundColor(.white)
                     .background(RoundedRectangle(cornerRadius: 16).fill(incomingBubble))
+                
                 HStack {
                     Text(message.timestamp) // Display timestamp
                         .font(.caption)
                         .foregroundColor(.gray)
                         .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
                     Spacer()
+              //      EmojiButton() // Add EmojiButton here
+                       // .foregroundColor(.gray)
                 }
             }
             Image("incomingTail")
                 .resizable()
                 .frame(width: 10, height: 10)
                 .padding(.leading, -5)
-        }
-    }
-}
-
-// Emoji button view
-struct EmojiButton: View {
-    @State private var isEmojiPickerPresented = false
-    
-    var body: some View {
-        Button(action: {
-            isEmojiPickerPresented.toggle()
-        }) {
-            Image(systemName: "smiley")
-                .font(.title)
-        }
-        .sheet(isPresented: $isEmojiPickerPresented) {
-            EmojiPickerView(isPresented: $isEmojiPickerPresented)
-        }
-    }
-}
-
-// Emoji picker view
-struct EmojiPickerView: View {
-    @Binding var isPresented: Bool
-    
-    var body: some View {
-        VStack {
-            Text("Emoji Picker")
-                .font(.title)
-                .padding()
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 50))], spacing: 10) {
-                    ForEach(["😊", "😂", "😍", "👍", "👏", "❤️", "🔥", "🎉", "🤔"], id: \.self) { emoji in
-                        Button(action: {
-                            // Handle emoji selection here
-                            print("Selected emoji: \(emoji)")
-                            isPresented = false
-                        }) {
-                            Text(emoji)
-                                .font(.largeTitle)
-                        }
-                        .padding(5)
-                        .background(Color.gray.opacity(0.3))
-                        .cornerRadius(10)
-                    }
-                }
-                .padding()
-            }
         }
     }
 }
@@ -151,15 +110,22 @@ struct MessengerView: View {
             ScrollView {
                 VStack(spacing: 8) {
                     ForEach($messages) { $message in
-                        if message.sender == "You" { // Assuming "You" are sending the messages
-                            OutgoingDoubleLineMessage(message: message)
-                        } else {
-                            IncomingDoubleLineMessage(message: message)
+                        HStack {
+                            if message.sender == "You" {
+                                OutgoingDoubleLineMessage(message: message)
+                            } else {
+                                IncomingDoubleLineMessage(message: message)
+                            }
+                            if message.sender != "You" { // Only show EmojiButton for incoming messages
+                                EmojiButton()
+                                    .foregroundColor(.gray)
+                            }
                         }
+                        .padding()
                     }
                 }
-                .padding()
             }
+
             
             ComposeArea()
         }
@@ -168,6 +134,58 @@ struct MessengerView: View {
 
     }
 }
+// Emoji button view
+struct EmojiButton: View {
+    @State private var isEmojiPickerPresented = false
+    
+    var body: some View {
+        Button(action: {
+            isEmojiPickerPresented.toggle()
+        }) {
+            Image(systemName: "smiley")
+                .font(.title)
+        }
+        .overlay(
+            EmojiPickerDialog(isPresented: $isEmojiPickerPresented)
+                .frame(width: 200, height: 30) // Adjust size as needed
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(radius: 5)
+                .opacity(isEmojiPickerPresented ? 1 : 0) // Show only when isEmojiPickerPresented is true
+        )
+    }
+}
+
+struct EmojiPickerDialog: View {
+    @Binding var isPresented: Bool
+    
+    var emojis = ["😊", "😂", "😍", "👍", "👏", "❤️", "🔥", "🎉", "🤔"]
+    
+    var body: some View {
+        VStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) { // Decreased spacing
+                    ForEach(emojis, id: \.self) { emoji in
+                        Text(emoji)
+                            .font(.system(size: 20)) // Decreased font size
+                            .onTapGesture {
+                                // Handle emoji selection here if needed
+                                isPresented.toggle()
+                            }
+                    }
+                    .padding(5) // Decreased padding
+                }
+                .padding(10) // Increased padding around the ScrollView
+            }
+            .frame(height: 20) // Decreased height of ScrollView
+        }
+    }
+}
+
+
+
+
 struct ComposeArea: View {
     @State private var write: String = ""
     
