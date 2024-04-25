@@ -1,5 +1,6 @@
 import SwiftUI
-
+// View for outgoing message
+// View for outgoing message
 // View for outgoing message
 struct OutgoingDoubleLineMessage: View {
     let message: MessagesStructure
@@ -8,8 +9,7 @@ struct OutgoingDoubleLineMessage: View {
 
     var body: some View {
         HStack {
-            Spacer()
-            VStack {
+            VStack(alignment: .trailing) {
                 Text(message.content)
                     .font(.body)
                     .padding(8)
@@ -27,7 +27,12 @@ struct OutgoingDoubleLineMessage: View {
                 .resizable()
                 .frame(width: 10, height: 10)
                 .padding(.trailing, -5)
-            if message.sender == "You" {
+            if message.sender != "participant2" {
+                Image(systemName: "person.circle.fill")
+                    .font(.title)
+                    .foregroundColor(.blue)
+            }
+            if message.sender == "participant2" {
                 Image(systemName: "person.circle.fill")
                     .font(.title)
                     .foregroundColor(.blue)
@@ -36,21 +41,21 @@ struct OutgoingDoubleLineMessage: View {
     }
 }
 
+
 // View for incoming message
 // View for incoming message
 struct IncomingDoubleLineMessage: View {
     let message: MessagesStructure
     let incomingBubble = Color.gray
-    @State private var isEmojiPickerPresented = false // Add state for emoji picker
-    
+
     var body: some View {
         HStack {
-            if message.sender != "You" {
+            if message.sender != "participant2" {
                 Image(systemName: "person.circle.fill")
                     .font(.title)
                     .foregroundColor(.blue)
             }
-            VStack {
+            VStack(alignment: .leading) {
                 Text(message.content)
                     .font(.body)
                     .padding(8)
@@ -63,21 +68,36 @@ struct IncomingDoubleLineMessage: View {
                         .foregroundColor(.gray)
                         .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
                     Spacer()
+<<<<<<< Updated upstream
               //      EmojiButton() // Add EmojiButton here
                        // .foregroundColor(.gray)
+=======
+>>>>>>> Stashed changes
                 }
             }
             Image("incomingTail")
                 .resizable()
                 .frame(width: 10, height: 10)
                 .padding(.leading, -5)
+            if message.sender == "participant2" {
+                Image(systemName: "person.circle.fill")
+                    .font(.title)
+                    .foregroundColor(.blue)
+            }
         }
     }
 }
 
+
 struct MessengerView: View {
+    let service = Service() // Create an instance of the Service class
     let senderName: String
+<<<<<<< Updated upstream
     @State private var messages: [MessagesStructure] = MessageData
+=======
+    @State private var messages: [MessagesStructure] = []
+    @Environment(\.presentationMode) var presentationMode
+>>>>>>> Stashed changes
 
     var body: some View {
         VStack {
@@ -109,14 +129,14 @@ struct MessengerView: View {
             
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach($messages) { $message in
+                    ForEach(messages) { message in // Removed the $ sign
                         HStack {
-                            if message.sender == "You" {
+                            if message.sender == "participant2" {
                                 OutgoingDoubleLineMessage(message: message)
                             } else {
                                 IncomingDoubleLineMessage(message: message)
                             }
-                            if message.sender != "You" { // Only show EmojiButton for incoming messages
+                            if message.sender != "participant2" { // Only show EmojiButton for incoming messages
                                 EmojiButton()
                                     .foregroundColor(.gray)
                             }
@@ -131,9 +151,32 @@ struct MessengerView: View {
         }
         .padding(.bottom) // Add padding to ensure the ComposeArea is above the safe area
         .navigationBarBackButtonHidden(true) // Hide the automatic back button
+        .onAppear {
+            // Fetch messages when the view appears
+            service.fetchMessages(conversationId: "660933c3b45a0d96d7845856") { json, error in
+                if let error = error {
+                    print("Error fetching messages: \(error)")
+                    return
+                }
 
+                if let json = json {
+                    // Parse JSON and update messages array
+                    if let messagesData = json["messages"] as? [[String: Any]] {
+                        self.messages = messagesData.compactMap { messageData in
+                            MessagesStructure(
+                                sender: messageData["sender"] as? String ?? "",
+                                content: messageData["content"] as? String ?? "",
+                                timestamp: messageData["timestamp"] as? String ?? "",
+                                emoji: messageData["emoji"] as? String
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
 // Emoji button view
 struct EmojiButton: View {
     @State private var isEmojiPickerPresented = false
@@ -193,7 +236,7 @@ struct ComposeArea: View {
         HStack {
             Image(systemName: "camera.fill")
                 .font(.title)
-            Image("store")
+          //  Image("store")
             ZStack {
                 RoundedRectangle(cornerRadius: 18)
                     .stroke()
