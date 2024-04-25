@@ -1,7 +1,5 @@
 import SwiftUI
 
-// Assuming MessagesStructure and MessageData are defined somewhere else in your code
-
 struct User: Identifiable {
     let id = UUID()
     let name: String
@@ -41,7 +39,7 @@ struct ContentView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(users) { user in
-                            NavigationLink(destination: ConversationDetailView(user: user)) {
+                            NavigationLink(destination: MessengerView(senderName: user.name)) {
                                 UserView(user: user)
                                     .padding(.horizontal, 10)
                             }
@@ -52,23 +50,22 @@ struct ContentView: View {
                 
                 Divider()
                 
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        ForEach(filteredConversations) { conversation in
-                            ConversationView(conversation: conversation, onDelete: { self.setConversationToDelete(conversation) })
-                                .gesture(
-                                    DragGesture()
-                                        .onEnded { value in
-                                            if value.translation.width < -50 {
-                                                // Swiped left
-                                                self.setConversationToDelete(conversation)
-                                            }
-                                        }
-                                )
+                List {
+                    ForEach(filteredConversations) { conversation in
+                        NavigationLink(destination: MessengerView(senderName: conversation.user.name)){
+                            ConversationRow(conversation: conversation)
+                        }
+                        .swipeActions {
+                            Button(action: {
+                                self.setConversationToDelete(conversation)
+                            }) {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            .tint(.red)
                         }
                     }
-                    .padding()
                 }
+                .listStyle(PlainListStyle())
             }
             .navigationTitle("CrossChat")
             .navigationBarBackButtonHidden(true)
@@ -119,28 +116,21 @@ struct UserView: View {
     }
 }
 
-struct ConversationView: View {
+struct ConversationRow: View {
     let conversation: Conversation
-    let onDelete: () -> Void // No need to pass conversation here
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(conversation.user.name)
-                .font(.headline)
-            Text(conversation.lastMessage)
-                .foregroundColor(.gray)
-            Text("\(conversation.timestamp)")
-                .font(.caption)
-                .foregroundColor(.gray)
-        }
-        .padding(.vertical, 5)
-        .contextMenu {
-            Button(action: {
-                onDelete()
-            }) {
-                Text("Delete")
-                Image(systemName: "trash")
+        HStack {
+            VStack(alignment: .leading) {
+                Text(conversation.user.name)
+                    .font(.headline)
+                Text(conversation.lastMessage)
+                    .foregroundColor(.gray)
+                Text("\(conversation.timestamp)")
+                    .font(.caption)
+                    .foregroundColor(.gray)
             }
+            .padding(.vertical, 5)
         }
     }
 }
@@ -178,7 +168,8 @@ struct ConversationDetailView: View {
     let user: User
 
     var body: some View {
-        MessengerView(senderName: user.name)
+        Text("Conversation with \(user.name)")
+            .navigationTitle(user.name)
             .navigationBarHidden(true)
     }
 }
