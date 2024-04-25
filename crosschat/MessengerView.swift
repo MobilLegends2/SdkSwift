@@ -37,7 +37,6 @@ struct OutgoingDoubleLineMessage: View {
 }
 
 // View for incoming message
-// View for incoming message
 struct IncomingDoubleLineMessage: View {
     let message: MessagesStructure
     let incomingBubble = Color.gray
@@ -63,8 +62,8 @@ struct IncomingDoubleLineMessage: View {
                         .foregroundColor(.gray)
                         .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
                     Spacer()
-              //      EmojiButton() // Add EmojiButton here
-                       // .foregroundColor(.gray)
+                    EmojiButton() // Add EmojiButton here
+                       .foregroundColor(.gray)
                 }
             }
             Image("incomingTail")
@@ -78,34 +77,42 @@ struct IncomingDoubleLineMessage: View {
 struct MessengerView: View {
     let senderName: String
     @State private var messages: [MessagesStructure] = MessageData
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         VStack {
-                   HStack {
-                       VStack(alignment: .leading) {
-                           Text(senderName) // Dynamic sender name
-                               .font(.title)
-                               .foregroundColor(.black)
-                               .padding(.leading, 8) // Add some padding between the online indicator and sender name
-                       }
-                       Circle()
-                           .fill(Color.green)
-                           .frame(width: 10, height: 10)
-                       Text("Online")
-                           .font(.caption)
-                           .foregroundColor(.gray) // Adjust color as needed
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(senderName) // Dynamic sender name
+                        .font(.title)
+                        .foregroundColor(.black)
+                        .padding(.leading, 8) // Add some padding between the online indicator and sender name
+                }
+                Circle()
+                    .fill(Color.green)
+                    .frame(width: 10, height: 10)
+                Text("Online")
+                    .font(.caption)
+                    .foregroundColor(.gray) // Adjust color as needed
 
-                       
-                       Spacer()
-                       
-                       Image(systemName: "video.fill") // Video call icon
-                           .font(.title)
-                           .foregroundColor(.blue)
-                       Image(systemName: "phone.fill") // Voice call icon
-                           .font(.title)
-                           .foregroundColor(.blue)
-                   }
-                   .padding()
+                
+                Spacer()
+                
+                Image(systemName: "video.fill") // Video call icon
+                    .font(.title)
+                    .foregroundColor(.blue)
+                Image(systemName: "phone.fill") // Voice call icon
+                    .font(.title)
+                    .foregroundColor(.blue)
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "chevron.backward")
+                        .font(.title)
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding()
             
             ScrollView {
                 VStack(spacing: 8) {
@@ -212,5 +219,3 @@ struct ComposeArea: View {
         .padding()
     }
 }
-
-

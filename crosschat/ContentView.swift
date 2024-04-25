@@ -1,5 +1,7 @@
 import SwiftUI
 
+// Assuming MessagesStructure and MessageData are defined somewhere else in your code
+
 struct User: Identifiable {
     let id = UUID()
     let name: String
@@ -39,7 +41,7 @@ struct ContentView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(users) { user in
-                            NavigationLink(destination: MessengerView(senderName: "Arafet")) {
+                            NavigationLink(destination: ConversationDetailView(user: user)) {
                                 UserView(user: user)
                                     .padding(.horizontal, 10)
                             }
@@ -176,8 +178,7 @@ struct ConversationDetailView: View {
     let user: User
 
     var body: some View {
-        Text("Conversation with \(user.name)")
-            .navigationTitle(user.name)
+        MessengerView(senderName: user.name)
             .navigationBarHidden(true)
     }
 }
