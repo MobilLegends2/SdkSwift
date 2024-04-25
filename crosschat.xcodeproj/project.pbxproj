@@ -1,0 +1,608 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D133B24F2BDAE06F00859A26 /* crosschatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B24E2BDAE06F00859A26 /* crosschatApp.swift */; };
+		D133B2512BDAE06F00859A26 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2502BDAE06F00859A26 /* ContentView.swift */; };
+		D133B2532BDAE07000859A26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D133B2522BDAE07000859A26 /* Assets.xcassets */; };
+		D133B2562BDAE07000859A26 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D133B2552BDAE07000859A26 /* Preview Assets.xcassets */; };
+		D133B2582BDAE07000859A26 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2572BDAE07000859A26 /* Persistence.swift */; };
+		D133B25B2BDAE07000859A26 /* crosschat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D133B2592BDAE07000859A26 /* crosschat.xcdatamodeld */; };
+		D133B2652BDAE07000859A26 /* crosschatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2642BDAE07000859A26 /* crosschatTests.swift */; };
+		D133B26F2BDAE07000859A26 /* crosschatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B26E2BDAE07000859A26 /* crosschatUITests.swift */; };
+		D133B2712BDAE07000859A26 /* crosschatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2702BDAE07000859A26 /* crosschatUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D133B2612BDAE07000859A26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D133B2432BDAE06F00859A26 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D133B24A2BDAE06F00859A26;
+			remoteInfo = crosschat;
+		};
+		D133B26B2BDAE07000859A26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D133B2432BDAE06F00859A26 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D133B24A2BDAE06F00859A26;
+			remoteInfo = crosschat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D133B24B2BDAE06F00859A26 /* crosschat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = crosschat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D133B24E2BDAE06F00859A26 /* crosschatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crosschatApp.swift; sourceTree = "<group>"; };
+		D133B2502BDAE06F00859A26 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D133B2522BDAE07000859A26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D133B2552BDAE07000859A26 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D133B2572BDAE07000859A26 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		D133B25A2BDAE07000859A26 /* crosschat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = crosschat.xcdatamodel; sourceTree = "<group>"; };
+		D133B2602BDAE07000859A26 /* crosschatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = crosschatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D133B2642BDAE07000859A26 /* crosschatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crosschatTests.swift; sourceTree = "<group>"; };
+		D133B26A2BDAE07000859A26 /* crosschatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = crosschatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D133B26E2BDAE07000859A26 /* crosschatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crosschatUITests.swift; sourceTree = "<group>"; };
+		D133B2702BDAE07000859A26 /* crosschatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crosschatUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D133B2482BDAE06F00859A26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D133B25D2BDAE07000859A26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D133B2672BDAE07000859A26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D133B2422BDAE06F00859A26 = {
+			isa = PBXGroup;
+			children = (
+				D133B24D2BDAE06F00859A26 /* crosschat */,
+				D133B2632BDAE07000859A26 /* crosschatTests */,
+				D133B26D2BDAE07000859A26 /* crosschatUITests */,
+				D133B24C2BDAE06F00859A26 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D133B24C2BDAE06F00859A26 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D133B24B2BDAE06F00859A26 /* crosschat.app */,
+				D133B2602BDAE07000859A26 /* crosschatTests.xctest */,
+				D133B26A2BDAE07000859A26 /* crosschatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D133B24D2BDAE06F00859A26 /* crosschat */ = {
+			isa = PBXGroup;
+			children = (
+				D133B24E2BDAE06F00859A26 /* crosschatApp.swift */,
+				D133B2502BDAE06F00859A26 /* ContentView.swift */,
+				D133B2522BDAE07000859A26 /* Assets.xcassets */,
+				D133B2572BDAE07000859A26 /* Persistence.swift */,
+				D133B2592BDAE07000859A26 /* crosschat.xcdatamodeld */,
+				D133B2542BDAE07000859A26 /* Preview Content */,
+			);
+			path = crosschat;
+			sourceTree = "<group>";
+		};
+		D133B2542BDAE07000859A26 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D133B2552BDAE07000859A26 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D133B2632BDAE07000859A26 /* crosschatTests */ = {
+			isa = PBXGroup;
+			children = (
+				D133B2642BDAE07000859A26 /* crosschatTests.swift */,
+			);
+			path = crosschatTests;
+			sourceTree = "<group>";
+		};
+		D133B26D2BDAE07000859A26 /* crosschatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D133B26E2BDAE07000859A26 /* crosschatUITests.swift */,
+				D133B2702BDAE07000859A26 /* crosschatUITestsLaunchTests.swift */,
+			);
+			path = crosschatUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D133B24A2BDAE06F00859A26 /* crosschat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D133B2742BDAE07000859A26 /* Build configuration list for PBXNativeTarget "crosschat" */;
+			buildPhases = (
+				D133B2472BDAE06F00859A26 /* Sources */,
+				D133B2482BDAE06F00859A26 /* Frameworks */,
+				D133B2492BDAE06F00859A26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = crosschat;
+			productName = crosschat;
+			productReference = D133B24B2BDAE06F00859A26 /* crosschat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D133B25F2BDAE07000859A26 /* crosschatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D133B2772BDAE07000859A26 /* Build configuration list for PBXNativeTarget "crosschatTests" */;
+			buildPhases = (
+				D133B25C2BDAE07000859A26 /* Sources */,
+				D133B25D2BDAE07000859A26 /* Frameworks */,
+				D133B25E2BDAE07000859A26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D133B2622BDAE07000859A26 /* PBXTargetDependency */,
+			);
+			name = crosschatTests;
+			productName = crosschatTests;
+			productReference = D133B2602BDAE07000859A26 /* crosschatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D133B2692BDAE07000859A26 /* crosschatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D133B27A2BDAE07000859A26 /* Build configuration list for PBXNativeTarget "crosschatUITests" */;
+			buildPhases = (
+				D133B2662BDAE07000859A26 /* Sources */,
+				D133B2672BDAE07000859A26 /* Frameworks */,
+				D133B2682BDAE07000859A26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D133B26C2BDAE07000859A26 /* PBXTargetDependency */,
+			);
+			name = crosschatUITests;
+			productName = crosschatUITests;
+			productReference = D133B26A2BDAE07000859A26 /* crosschatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D133B2432BDAE06F00859A26 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					D133B24A2BDAE06F00859A26 = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+					D133B25F2BDAE07000859A26 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = D133B24A2BDAE06F00859A26;
+					};
+					D133B2692BDAE07000859A26 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = D133B24A2BDAE06F00859A26;
+					};
+				};
+			};
+			buildConfigurationList = D133B2462BDAE06F00859A26 /* Build configuration list for PBXProject "crosschat" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D133B2422BDAE06F00859A26;
+			productRefGroup = D133B24C2BDAE06F00859A26 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D133B24A2BDAE06F00859A26 /* crosschat */,
+				D133B25F2BDAE07000859A26 /* crosschatTests */,
+				D133B2692BDAE07000859A26 /* crosschatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D133B2492BDAE06F00859A26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D133B2562BDAE07000859A26 /* Preview Assets.xcassets in Resources */,
+				D133B2532BDAE07000859A26 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D133B25E2BDAE07000859A26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D133B2682BDAE07000859A26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D133B2472BDAE06F00859A26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D133B25B2BDAE07000859A26 /* crosschat.xcdatamodeld in Sources */,
+				D133B2582BDAE07000859A26 /* Persistence.swift in Sources */,
+				D133B2512BDAE06F00859A26 /* ContentView.swift in Sources */,
+				D133B24F2BDAE06F00859A26 /* crosschatApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D133B25C2BDAE07000859A26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D133B2652BDAE07000859A26 /* crosschatTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D133B2662BDAE07000859A26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D133B26F2BDAE07000859A26 /* crosschatUITests.swift in Sources */,
+				D133B2712BDAE07000859A26 /* crosschatUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D133B2622BDAE07000859A26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D133B24A2BDAE06F00859A26 /* crosschat */;
+			targetProxy = D133B2612BDAE07000859A26 /* PBXContainerItemProxy */;
+		};
+		D133B26C2BDAE07000859A26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D133B24A2BDAE06F00859A26 /* crosschat */;
+			targetProxy = D133B26B2BDAE07000859A26 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D133B2722BDAE07000859A26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D133B2732BDAE07000859A26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D133B2752BDAE07000859A26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"crosschat/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tn.esprit.crosschat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D133B2762BDAE07000859A26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"crosschat/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tn.esprit.crosschat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D133B2782BDAE07000859A26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tn.esprit.crosschatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/crosschat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/crosschat";
+			};
+			name = Debug;
+		};
+		D133B2792BDAE07000859A26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tn.esprit.crosschatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/crosschat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/crosschat";
+			};
+			name = Release;
+		};
+		D133B27B2BDAE07000859A26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tn.esprit.crosschatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = crosschat;
+			};
+			name = Debug;
+		};
+		D133B27C2BDAE07000859A26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tn.esprit.crosschatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = crosschat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D133B2462BDAE06F00859A26 /* Build configuration list for PBXProject "crosschat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D133B2722BDAE07000859A26 /* Debug */,
+				D133B2732BDAE07000859A26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D133B2742BDAE07000859A26 /* Build configuration list for PBXNativeTarget "crosschat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D133B2752BDAE07000859A26 /* Debug */,
+				D133B2762BDAE07000859A26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D133B2772BDAE07000859A26 /* Build configuration list for PBXNativeTarget "crosschatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D133B2782BDAE07000859A26 /* Debug */,
+				D133B2792BDAE07000859A26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D133B27A2BDAE07000859A26 /* Build configuration list for PBXNativeTarget "crosschatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D133B27B2BDAE07000859A26 /* Debug */,
+				D133B27C2BDAE07000859A26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D133B2592BDAE07000859A26 /* crosschat.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D133B25A2BDAE07000859A26 /* crosschat.xcdatamodel */,
+			);
+			currentVersion = D133B25A2BDAE07000859A26 /* crosschat.xcdatamodel */;
+			path = crosschat.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = D133B2432BDAE06F00859A26 /* Project object */;
+}
