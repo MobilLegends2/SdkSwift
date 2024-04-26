@@ -10,8 +10,10 @@ struct Conversation: Identifiable {
     let id : String
     let participantName: String
     let lastMessage: String
+    let emojis: [String] // Array of emojis associated with the last message
     let timestamp: Date
 }
+
 
 struct ContentView: View {
     @State private var searchText = ""
@@ -87,7 +89,7 @@ struct ContentView: View {
                 List {
                     ForEach(filteredConversations) { conversation in
                         NavigationLink(destination: MessengerView(senderName: conversation.participantName, conversationId:conversation.id)) {
-                            ConversationRow(conversation: conversation)
+                            ConversationRow(conversation: conversation,selectedEmoji: conversation.emojis.first)
                         }
                         .swipeActions {
                             Button(action: {
@@ -131,16 +133,19 @@ struct ContentView: View {
                                 let participants = conversationD?["participants"] as? [String] ?? ["", ""]
                                 let participantName = participants.first(where: { $0 != service.currentUser }) ?? ""
                                 let convId = conversationD?["_id"] as? String ?? "" // Get the conversation ID
+                                let emojis = conversationData["emojis"] as? [String] ?? [] // Get the emojis array
 
                                 print(participants)
                                 print(participantName)
                                 
+                                
                                 return Conversation(
-                                    id:convId ,
-                                    participantName: participantName,
-                                    lastMessage: conversationData["content"] as? String ?? "",
-                                    timestamp: Date() // You can parse the timestamp here
-                                )
+                                                id: convId,
+                                                participantName: participantName,
+                                                lastMessage: conversationData["content"] as? String ?? "",
+                                                emojis: emojis,
+                                                timestamp: Date() // You can parse the timestamp here
+                                            )
                             }
                         }
                     }
@@ -181,8 +186,10 @@ struct UserView: View {
     }
 }
 
+
 struct ConversationRow: View {
     let conversation: Conversation
+    let selectedEmoji: String? // Add a property to hold the selected emoji
 
     var body: some View {
         HStack {
@@ -196,9 +203,21 @@ struct ConversationRow: View {
                     .foregroundColor(.gray)
             }
             .padding(.vertical, 5)
+            
+            Spacer() // Add Spacer to push the emoji to the right
+            
+            if let emoji = selectedEmoji { // Check if a selected emoji is available
+                Text(emoji) // Display the selected emoji
+                    .font(.title) // Adjust font size as needed
+            } else if !conversation.emojis.isEmpty { // If no selected emoji, display emojis from the conversation
+                Image(systemName: "message") // Default icon, you can replace it with any SF Symbol
+                    .font(.title) // Adjust font size as needed
+            }
         }
     }
 }
+
+
 
 struct SearchBar: View {
     @Binding var text: String
