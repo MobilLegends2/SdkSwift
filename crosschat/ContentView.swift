@@ -70,7 +70,7 @@ struct ContentView: View {
                     .padding(.vertical)
                     .background(
                         NavigationLink(
-                            destination: MessengerView(senderName: senderN ?? "", conversationId: selectedConversationId ?? ""),
+                            destination: MessengerView(senderName: senderN , conversationId: selectedConversationId ?? ""),
                             tag: true,
                             selection: $navigateToMessengerView
                         ) {

@@ -1,4 +1,5 @@
 import SwiftUI
+import PhotosUI
 // View for outgoing message
 // View for outgoing message
 // View for outgoing message
@@ -230,31 +231,129 @@ struct EmojiPickerDialog: View {
 
 
 
+
+
+
+import SwiftUI
+import UIKit
+
 struct ComposeArea: View {
     @State private var write: String = ""
-    
+    @State private var isRecording: Bool = false
+    @State private var selectedButton: Int = 0 // 0 for camera, 1 for record
+    @State private var selectedImage: UIImage? = nil
+    @State private var showImagePicker: Bool = false
+
     var body: some View {
-        HStack {
-            Image(systemName: "camera.fill")
-                .font(.title)
-          //  Image("store")
-            ZStack {
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke()
-                HStack{
-                    TextField("Write a message", text: $write)
-                        .font(.headline)
-                    Spacer()
-                    Image(systemName: "waveform.circle.fill")
+        HStack(spacing: 10) {
+            Picker(selection: $selectedButton, label: Text("")) {
+                Image(systemName: "camera.fill").tag(0)
+                Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill").tag(1)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .foregroundColor(.blue)
+            .font(.title)
+
+            if selectedButton == 0 {
+                Button(action: {
+                    // Show image picker
+                    self.showImagePicker.toggle()
+                }) {
+                    Image(systemName: "camera.fill")
                         .font(.title)
                 }
-                .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 3))
+                .sheet(isPresented: $showImagePicker) {
+                    ImagePicker(selectedImage: self.$selectedImage, sourceType: .camera)
+                }
+            } else {
+                Button(action: {
+                    // Toggle the recording state
+                    isRecording.toggle()
+                    if isRecording {
+                        // Start recording logic
+                        // Example: startRecording()
+                    } else {
+                        // Stop recording logic
+                        // Example: stopRecording()
+                    }
+                }) {
+                    Image(systemName: "mic.circle.fill")
+                        .font(.title)
+                        .foregroundColor(.red)
+                }
             }
-            .frame(width: 249, height: 33)
+
+            TextField("Write a message", text: $write)
+                .font(.headline)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+                .foregroundColor(.black)
+                .background(RoundedRectangle(cornerRadius: 20).stroke(Color.blue, lineWidth: 1))
+
+            Button(action: {
+                // Perform action to send the message
+                // Example: SendMessageFunction(message: write)
+                write = "" // Clear the text field after sending
+            }) {
+                Image(systemName: "paperplane.fill")
+                    .font(.title)
+                    .foregroundColor(.blue)
+                    .padding(10)
+                    .background(Color.white)
+                    .clipShape(Circle())
+                    .shadow(radius: 3)
+            }
         }
-        .foregroundColor(Color(.systemGray))
         .padding()
+        .background(Color.gray.opacity(0.1)) // Add a subtle background
+        .cornerRadius(20)
+        .shadow(radius: 5) // Add shadow for depth
     }
 }
 
+// Example startRecording and stopRecording functions
+// Implement your own recording logic here
+extension ComposeArea {
+    func startRecording() {
+        print("Recording started")
+    }
 
+    func stopRecording() {
+        print("Recording stopped")
+    }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var selectedImage: UIImage?
+
+    var sourceType: UIImagePickerController.SourceType
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = sourceType
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let parent: ImagePicker
+
+        init(parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.selectedImage = image
+            }
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+    }
+}
