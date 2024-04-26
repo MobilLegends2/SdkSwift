@@ -15,10 +15,14 @@ struct Conversation: Identifiable {
 
 struct ContentView: View {
     @State private var searchText = ""
+    @State private var senderN = ""
     @State private var conversations: [Conversation] = []
     @State private var conversationToDelete: Conversation? = nil
     @State private var showingDeleteAlert = false
-    
+    @State private var destinationView: AnyView? = nil
+    @State private var navigateToMessengerView: Bool? = false
+    @State private var selectedConversationId: String? = nil // Define selectedConversationId here
+
     let service = Service() // Create an instance of the Service class
     
     var filteredConversations: [Conversation] {
@@ -36,14 +40,47 @@ struct ContentView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(users) { user in
-                            NavigationLink(destination: MessengerView(senderName: user.name, conversationId:"test" )) {
-                                UserView(user: user)
-                                    .padding(.horizontal, 10)
-                            }
+                            UserView(user: user)
+                                .padding(.horizontal, 10)
+                                .onTapGesture {
+                                    // Log when the user is pressed
+                                    print("User \(user.name) pressed")
+                                    
+                                    // Call createOrGetConversation to create or retrieve conversation ID
+                                    service.createOrGetConversation(clickedUserId: user.name) { conversationId, error in
+                                        if let error = error {
+                                            print("Error creating/getting conversation: \(error)")
+                                            return
+                                        }
+                                        if let conversationId = conversationId {
+                                            // Log the obtained conversation ID
+                                            print("Obtained conversation ID for \(user.name): \(conversationId)")
+                                            
+                                            // Now, trigger navigation to MessengerView with the obtained conversation ID
+                                            DispatchQueue.main.async {
+                                                self.selectedConversationId = conversationId
+                                                self.navigateToMessengerView = true
+                                                self.senderN = user.name
+                                            }
+                                        }
+                                    }
+                                }
                         }
                     }
                     .padding(.vertical)
+                    .background(
+                        NavigationLink(
+                            destination: MessengerView(senderName: senderN ?? "", conversationId: selectedConversationId ?? ""),
+                            tag: true,
+                            selection: $navigateToMessengerView
+                        ) {
+                            EmptyView()
+                        }
+                        .hidden()
+                    )
                 }
+
+
                 
                 Divider()
                 

@@ -96,6 +96,13 @@ struct MessengerView: View {
     var body: some View {
         VStack {
             HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "arrow.left")
+                          // Add negative padding
+                    }
+                
                 VStack(alignment: .leading) {
                     Text(senderName) // Dynamic sender name
                         .font(.title)
@@ -144,14 +151,7 @@ struct MessengerView: View {
         }
         .padding(.bottom) // Add padding to ensure the ComposeArea is above the safe area
        .navigationBarBackButtonHidden(true) // Hide the automatic back button
-        .navigationBarItems(leading: // Changed to leading
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }) {
-                Image(systemName: "arrow.left")
-                  // Add negative padding
-            }
-        )
+        
         .onAppear {
             // Fetch messages when the view appears
             service.fetchMessages(conversationId: conversationId) { json, error in
