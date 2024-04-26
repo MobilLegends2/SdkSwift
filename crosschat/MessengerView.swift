@@ -95,34 +95,34 @@ struct MessengerView: View {
 
     var body: some View {
         VStack {
-                   HStack {
-                       VStack(alignment: .leading) {
-                           Text(senderName) // Dynamic sender name
-                               .font(.title)
-                               .foregroundColor(.black)
-                               .padding(.leading, 8) // Add some padding between the online indicator and sender name
-                       }
-                       Circle()
-                           .fill(Color.green)
-                           .frame(width: 10, height: 10)
-                       Text("Online")
-                           .font(.caption)
-                           .foregroundColor(.gray) // Adjust color as needed
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(senderName) // Dynamic sender name
+                        .font(.title)
+                        .foregroundColor(.black)
+                        .padding(.leading, 2) // Reduce padding between the online indicator and sender name
+                }
+                Circle()
+                    .fill(Color.green)
+                    .frame(width: 10, height: 10)
+                Text("Online")
+                    .font(.caption)
+                    .foregroundColor(.gray) // Adjust color as needed
 
-                       
-                       Spacer()
-                       
-                       Image(systemName: "video.fill") // Video call icon
-                           .font(.title)
-                           .foregroundColor(.blue)
-                       Image(systemName: "phone.fill") // Voice call icon
-                           .font(.title)
-                           .foregroundColor(.blue)
-                   }
-                   .padding()
+                
+                Spacer()
+                
+                Image(systemName: "video.fill") // Video call icon
+                    .font(.title)
+                    .foregroundColor(.blue)
+                Image(systemName: "phone.fill") // Voice call icon
+                    .font(.title)
+                    .foregroundColor(.blue)
+            }
+            .padding()
             
             ScrollView {
-                VStack(spacing: 8) {
+                VStack(spacing: 1) {
                     ForEach(messages) { message in // Removed the $ sign
                         HStack {
                             if message.sender == "participant2" {
@@ -139,12 +139,19 @@ struct MessengerView: View {
                     }
                 }
             }
-
             
             ComposeArea()
         }
         .padding(.bottom) // Add padding to ensure the ComposeArea is above the safe area
-        .navigationBarBackButtonHidden(true) // Hide the automatic back button
+       .navigationBarBackButtonHidden(true) // Hide the automatic back button
+        .navigationBarItems(leading: // Changed to leading
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Image(systemName: "arrow.left")
+                  // Add negative padding
+            }
+        )
         .onAppear {
             // Fetch messages when the view appears
             service.fetchMessages(conversationId: conversationId) { json, error in
