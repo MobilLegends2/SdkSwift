@@ -92,5 +92,27 @@ class Service {
             }
         }.resume()
     }
+    func addReaction(conversationId: String, messageId: String, reaction: String) {
+        let url = URL(string: "http://\(ipAddress)/messages/\(messageId)/emoji")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let parameters: [String: Any] = [
+            "reaction": reaction,
+            "user": currentUser
+        ]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let _ = data, error == nil else {
+                print("Error adding reaction: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            print("Reaction added successfully")
+        }.resume()
+    }
+
 
 }

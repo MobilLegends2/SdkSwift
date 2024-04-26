@@ -86,43 +86,45 @@ struct IncomingDoubleLineMessage: View {
 }
 
 
+
+
 struct MessengerView: View {
-    let service = Service() // Create an instance of the Service class
+    let service = Service()
     let senderName: String
     let conversationId: String
+    
     @State private var messages: [MessagesStructure] = []
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         VStack {
             HStack {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image(systemName: "arrow.left")
-                          // Add negative padding
-                    }
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "arrow.left")
+                        .padding(.leading, -10)
+                }
                 
                 VStack(alignment: .leading) {
-                    Text(senderName) // Dynamic sender name
+                    Text(senderName)
                         .font(.title)
                         .foregroundColor(.black)
-                        .padding(.leading, 2) // Reduce padding between the online indicator and sender name
+                        .padding(.leading, 2)
                 }
                 Circle()
                     .fill(Color.green)
                     .frame(width: 10, height: 10)
                 Text("Online")
                     .font(.caption)
-                    .foregroundColor(.gray) // Adjust color as needed
+                    .foregroundColor(.gray)
 
-                
                 Spacer()
                 
-                Image(systemName: "video.fill") // Video call icon
+                Image(systemName: "video.fill")
                     .font(.title)
                     .foregroundColor(.blue)
-                Image(systemName: "phone.fill") // Voice call icon
+                Image(systemName: "phone.fill")
                     .font(.title)
                     .foregroundColor(.blue)
             }
@@ -130,15 +132,15 @@ struct MessengerView: View {
             
             ScrollView {
                 VStack(spacing: 1) {
-                    ForEach(messages) { message in // Removed the $ sign
+                    ForEach(messages.indices, id: \.self) { index in
                         HStack {
-                            if message.sender == "participant2" {
-                                OutgoingDoubleLineMessage(message: message)
+                            if messages[index].sender == "participant2" {
+                                OutgoingDoubleLineMessage(message: messages[index]) // Unwrap the binding
                             } else {
-                                IncomingDoubleLineMessage(message: message)
+                                IncomingDoubleLineMessage(message: messages[index]) // Unwrap the binding
                             }
-                            if message.sender != "participant2" { // Only show EmojiButton for incoming messages
-                                EmojiButton()
+                            if messages[index].sender != "participant2" {
+                                EmojiButton(conversationId: conversationId, messageId: messages[index].id, service: service) // Pass necessary parameters
                                     .foregroundColor(.gray)
                             }
                         }
@@ -146,14 +148,14 @@ struct MessengerView: View {
                     }
                 }
             }
+
             
             ComposeArea()
         }
-        .padding(.bottom) // Add padding to ensure the ComposeArea is above the safe area
-       .navigationBarBackButtonHidden(true) // Hide the automatic back button
+        .padding(.bottom)
+        .navigationBarBackButtonHidden(true)
         
         .onAppear {
-            // Fetch messages when the view appears
             service.fetchMessages(conversationId: conversationId) { json, error in
                 if let error = error {
                     print("Error fetching messages: \(error)")
@@ -161,10 +163,10 @@ struct MessengerView: View {
                 }
 
                 if let json = json {
-                    // Parse JSON and update messages array
                     if let messagesData = json["messages"] as? [[String: Any]] {
                         self.messages = messagesData.compactMap { messageData in
                             MessagesStructure(
+                                id:messageData["_id"] as? String ?? "",
                                 sender: messageData["sender"] as? String ?? "",
                                 content: messageData["content"] as? String ?? "",
                                 timestamp: messageData["timestamp"] as? String ?? "",
@@ -178,9 +180,15 @@ struct MessengerView: View {
     }
 }
 
+
 // Emoji button view
 struct EmojiButton: View {
     @State private var isEmojiPickerPresented = false
+    @State private var selectedEmoji: String = "" // Add a state property to hold the selected emoji
+    
+    let conversationId: String
+    let messageId: String
+    let service: Service // Add a property for the Service
     
     var body: some View {
         Button(action: {
@@ -190,19 +198,28 @@ struct EmojiButton: View {
                 .font(.title)
         }
         .overlay(
-            EmojiPickerDialog(isPresented: $isEmojiPickerPresented)
-                .frame(width: 200, height: 30) // Adjust size as needed
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(radius: 5)
-                .opacity(isEmojiPickerPresented ? 1 : 0) // Show only when isEmojiPickerPresented is true
+            EmojiPickerDialog(isPresented: $isEmojiPickerPresented) { emoji in
+                self.selectedEmoji = emoji // Set the selected emoji
+                print(emoji)
+                self.service.addReaction(conversationId: self.conversationId, messageId: self.messageId, reaction: emoji) // Add reaction using the service
+            }
+            .frame(width: 200, height: 30) // Adjust size as needed
+            .padding()
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+            .opacity(isEmojiPickerPresented ? 1 : 0) // Show only when isEmojiPickerPresented is true
         )
     }
 }
 
+  
+
+
+
 struct EmojiPickerDialog: View {
     @Binding var isPresented: Bool
+    let onSelectEmoji: (String) -> Void // Closure to handle emoji selection
     
     var emojis = ["😊", "😂", "😍", "👍", "👏", "❤️", "🔥", "🎉", "🤔"]
     
@@ -214,19 +231,18 @@ struct EmojiPickerDialog: View {
                         Text(emoji)
                             .font(.system(size: 20)) // Decreased font size
                             .onTapGesture {
-                                // Handle emoji selection here if needed
-                                isPresented.toggle()
+                                self.onSelectEmoji(emoji) // Call the closure to handle emoji selection
+                                self.isPresented.toggle() // Close the emoji picker
                             }
                     }
                     .padding(5) // Decreased padding
                 }
-                .padding(10) // Increased padding around the ScrollView
             }
-            .frame(height: 20) // Decreased height of ScrollView
+            .padding(10) // Increased padding around the ScrollView
+            .frame(height: 40) // Adjusted height of ScrollView
         }
     }
 }
-
 
 
 
