@@ -71,5 +71,26 @@ class Service {
             }
         }.resume()
     }
+    func createOrGetConversation(clickedUserId: String,  completion: @escaping (String?, Error?) -> Void) {
+        let url = URL(string: "http://\(ipAddress)/conversation/\(currentUser)/\(clickedUserId)")!
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(nil, error)
+                return
+            }
+            
+            do {
+                if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let conversationId = jsonResponse["_id"] as? String {
+                    completion(conversationId, nil)
+                    
+                } else {
+                    completion(nil, NSError(domain: "ServiceError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to create or get conversation"]))
+                }
+            } catch {
+                completion(nil, error)
+            }
+        }.resume()
+    }
 
 }
