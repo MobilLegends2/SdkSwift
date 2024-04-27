@@ -6,7 +6,7 @@ struct OutgoingDoubleLineMessage: View {
     let message: MessagesStructure
     let outgoingBubble = Color(#colorLiteral(red: 0.03921568627, green: 0.5176470588, blue: 1, alpha: 1))
     let senderName = "Arafet"
-
+    let service = Service()
     var body: some View {
         HStack {
             VStack(alignment: .trailing) {
@@ -27,12 +27,12 @@ struct OutgoingDoubleLineMessage: View {
                 .resizable()
                 .frame(width: 10, height: 10)
                 .padding(.trailing, -5)
-            if message.sender != "participant2" {
+            if message.sender != service.currentUser {
                 Image(systemName: "person.circle.fill")
                     .font(.title)
                     .foregroundColor(.blue)
             }
-            if message.sender == "participant2" {
+            if message.sender == service.currentUser {
                 Image(systemName: "person.circle.fill")
                     .font(.title)
                     .foregroundColor(.blue)
@@ -47,10 +47,10 @@ struct OutgoingDoubleLineMessage: View {
 struct IncomingDoubleLineMessage: View {
     let message: MessagesStructure
     let incomingBubble = Color.gray
-
+    let service = Service()
     var body: some View {
         HStack {
-            if message.sender != "participant2" {
+            if message.sender != service.currentUser {
                 Image(systemName: "person.circle.fill")
                     .font(.title)
                     .foregroundColor(.blue)
@@ -76,7 +76,7 @@ struct IncomingDoubleLineMessage: View {
                 .resizable()
                 .frame(width: 10, height: 10)
                 .padding(.leading, -5)
-            if message.sender == "participant2" {
+            if message.sender == service.currentUser {
                 Image(systemName: "person.circle.fill")
                     .font(.title)
                     .foregroundColor(.blue)
@@ -92,9 +92,9 @@ struct MessengerView: View {
     let service = Service()
     let senderName: String
     let conversationId: String
-    
     @State private var messages: [MessagesStructure] = []
     @Environment(\.presentationMode) var presentationMode
+    @StateObject private var socketObject = SocketObject.shared
 
     var body: some View {
         VStack {
@@ -134,12 +134,12 @@ struct MessengerView: View {
                 VStack(spacing: 1) {
                     ForEach(messages.indices, id: \.self) { index in
                         HStack {
-                            if messages[index].sender == "participant2" {
+                            if messages[index].sender == service.currentUser {
                                 OutgoingDoubleLineMessage(message: messages[index]) // Unwrap the binding
                             } else {
                                 IncomingDoubleLineMessage(message: messages[index]) // Unwrap the binding
                             }
-                            if messages[index].sender != "participant2" {
+                            if messages[index].sender != service.currentUser {
                                 EmojiButton(conversationId: conversationId, messageId: messages[index].id, service: service) // Pass necessary parameters
                                     .foregroundColor(.gray)
                             }
@@ -150,12 +150,14 @@ struct MessengerView: View {
             }
 
             
-            ComposeArea()
+            ComposeArea(conversationId: conversationId, currentUserId: service.currentUser)
         }
         .padding(.bottom)
         .navigationBarBackButtonHidden(true)
         
         .onAppear {
+            socketObject.socket.connect()
+            
             service.fetchMessages(conversationId: conversationId) { json, error in
                 if let error = error {
                     print("Error fetching messages: \(error)")
@@ -176,6 +178,7 @@ struct MessengerView: View {
                     }
                 }
             }
+            socketObject.joinConversation(conversationId: conversationId)
         }
     }
 }
@@ -248,12 +251,15 @@ struct EmojiPickerDialog: View {
 
 struct ComposeArea: View {
     @State private var write: String = ""
+    @StateObject private var socketObject = SocketObject.shared
     
+    let conversationId: String // Conversation ID
+    let currentUserId: String // Current user ID
+
     var body: some View {
         HStack {
             Image(systemName: "camera.fill")
                 .font(.title)
-          //  Image("store")
             ZStack {
                 RoundedRectangle(cornerRadius: 18)
                     .stroke()
@@ -267,10 +273,24 @@ struct ComposeArea: View {
                 .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 3))
             }
             .frame(width: 249, height: 33)
+            
+            Button(action: {
+                sendMessage() // Call the function to send the message
+                write = "" // Clear the text field after sending the message
+            }) {
+                Image(systemName: "paperplane.fill")
+                    .font(.title)
+            }
         }
         .foregroundColor(Color(.systemGray))
         .padding()
     }
+    
+    private func sendMessage() {
+        guard !write.isEmpty else { return } // Ensure the message is not empty
+        socketObject.sendMessage(conversationId: conversationId, message: write, sender: currentUserId) // Send the message
+    }
 }
+
 
 
