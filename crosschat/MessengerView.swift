@@ -178,10 +178,19 @@ struct MessengerView: View {
                     }
                 }
             }
+            listenForMessages()
             socketObject.joinConversation(conversationId: conversationId)
         }
     }
-}
+    
+    func listenForMessages() {
+        socketObject.listenForMessages(conversationId: conversationId) { newMessages in
+            // Update the messages array with the newly received messages
+            self.messages = newMessages
+        }
+    }
+
+ }
 
 
 // Emoji button view
@@ -251,6 +260,7 @@ struct EmojiPickerDialog: View {
 
 struct ComposeArea: View {
     @State private var write: String = ""
+    @State private var isSendingMessage = false // Track whether a message is being sent
     @StateObject private var socketObject = SocketObject.shared
     
     let conversationId: String // Conversation ID
@@ -275,22 +285,32 @@ struct ComposeArea: View {
             .frame(width: 249, height: 33)
             
             Button(action: {
-                sendMessage() // Call the function to send the message
-                write = "" // Clear the text field after sending the message
+                sendMessage()
             }) {
                 Image(systemName: "paperplane.fill")
                     .font(.title)
             }
+            .disabled(isSendingMessage) // Disable button while a message is being sent
         }
         .foregroundColor(Color(.systemGray))
         .padding()
     }
     
     private func sendMessage() {
-        guard !write.isEmpty else { return } // Ensure the message is not empty
-        socketObject.sendMessage(conversationId: conversationId, message: write, sender: currentUserId) // Send the message
+        guard !write.isEmpty && !isSendingMessage else { return } // Ensure message is not empty and not already sending
+        
+        // Update state to indicate that a message is being sent
+        isSendingMessage = true
+        
+        // Send the message
+        socketObject.sendMessage(conversationId: conversationId, message: write, sender: currentUserId)
+        
+        // Reset state after message is sent
+        isSendingMessage = false
+        write = "" // Clear the text field after sending the message
     }
 }
+
 
 
 

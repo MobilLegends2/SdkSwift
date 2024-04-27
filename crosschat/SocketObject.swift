@@ -11,7 +11,7 @@ import SocketIO
 class SocketObject: ObservableObject {
     static var shared = SocketObject()
     let ipAddress = "http://172.18.23.21:9090"
-
+    let service = Service()
     var manager: SocketManager!
     var socket: SocketIOClient!
     var status: String!
@@ -100,13 +100,71 @@ class SocketObject: ObservableObject {
     }
 
     
-    func listenForMessages(conversationId: String, completion: @escaping (String) -> Void) {
-        socket.on("new_message_\(conversationId)") { (data, ack) in
-            if let message = data.first as? String {
-                completion(message)
+    func listenForMessages(conversationId: String, completion: @escaping ([MessagesStructure]) -> Void) {
+        socket.on("new_message_\(conversationId)") { [weak self] (data, ack) in
+            guard let self = self else {
+                print("Self is nil")
+                return
+            }
+            
+            print("New message received:", data)
+            
+            // Fetch messages using the Service
+            self.service.fetchMessages(conversationId: conversationId) { json, error in
+                if let error = error {
+                    print("Error fetching messages: \(error)")
+                    return
+                }
+                
+                if let json = json {
+                    if let messagesData = json["messages"] as? [[String: Any]] {
+                        let messages = messagesData.compactMap { messageData in
+                            MessagesStructure(
+                                id: messageData["_id"] as? String ?? "",
+                                sender: messageData["sender"] as? String ?? "",
+                                content: messageData["content"] as? String ?? "",
+                                timestamp: messageData["timestamp"] as? String ?? "",
+                                emoji: messageData["emoji"] as? String
+                            )
+                        }
+                        DispatchQueue.main.async {
+                            completion(messages)
+                        }
+                    }
+                }
             }
         }
     }
+
+
+
+
+    private func updateMessages(with newMessage: MessagesStructure, conversationId: String, completion: @escaping ([MessagesStructure]) -> Void) {
+        // Fetch existing messages for the conversation
+        service.fetchMessages(conversationId: conversationId) { [weak self] json, error in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error fetching messages: \(error)")
+                return
+            }
+            var updatedMessages: [MessagesStructure] = []
+            if let json = json, let messagesData = json["messages"] as? [[String: Any]] {
+                updatedMessages = messagesData.compactMap { messageData in
+                    MessagesStructure(
+                        id: messageData["_id"] as? String ?? "",
+                        sender: messageData["sender"] as? String ?? "",
+                        content: messageData["content"] as? String ?? "",
+                        timestamp: messageData["timestamp"] as? String ?? "",
+                        emoji: messageData["emoji"] as? String
+                    )
+                }
+            }
+            updatedMessages.append(newMessage) // Append the new message
+            print("Updated messages:", updatedMessages)
+            completion(updatedMessages)
+        }
+    }
+
 }
 
 
