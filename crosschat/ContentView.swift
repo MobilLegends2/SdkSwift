@@ -124,27 +124,24 @@ struct ContentView: View {
                         return
                     }
 
-                    if let json = json {
-                        // Parse JSON and update conversations array
-                        let conversationD = json.first // Assign the entire JSON response to conversationD
-                                             if let conversationsData = json.first?["messages"] as? [[String: Any]] {
-                            self.conversations = conversationsData.compactMap { conversationData in
-                                let participants = conversationD?["participants"] as? [String] ?? ["", ""]
-                                let participantName = participants.first(where: { $0 != service.currentUser }) ?? ""
-                                let convId = conversationD?["_id"] as? String ?? "" // Get the conversation ID
+                    if let conversationsData = json {
+                        self.conversations = conversationsData.compactMap { conversationData in
+                            let participants = conversationData["participants"] as? [String] ?? ["", ""]
+                            let participantName = participants.first(where: { $0 != service.currentUser }) ?? ""
+                            let convId = conversationData["_id"] as? String ?? "" // Get the conversation ID
 
-                                print(participants)
-                                print(participantName)
-                                
-                                return Conversation(
-                                    id:convId ,
-                                    participantName: participantName,
-                                    lastMessage: conversationData["content"] as? String ?? "",
-                                    timestamp: Date() // You can parse the timestamp here
-                                )
-                            }
+                            print(participants)
+                            print(participantName)
+
+                            return Conversation(
+                                id:convId ,
+                                participantName: participantName,
+                                lastMessage: (conversationData["messages"] as? [[String: Any]])?.last?["content"] as? String ?? "",
+                                timestamp: Date() // You can parse the timestamp here
+                            )
                         }
                     }
+
                 }
             }
         }

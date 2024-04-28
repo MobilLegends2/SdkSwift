@@ -156,31 +156,44 @@ struct MessengerView: View {
         .navigationBarBackButtonHidden(true)
         
         .onAppear {
-            socketObject.socket.connect()
-            
-            service.fetchMessages(conversationId: conversationId) { json, error in
-                if let error = error {
-                    print("Error fetching messages: \(error)")
-                    return
-                }
+            onAppear()
+          }
+        .onDisappear{
+            onDisappear()
+        }
+    }
+    
+    
+    func onAppear() {
+        socketObject.socket.connect()
+        
+        service.fetchMessages(conversationId: conversationId) { json, error in
+            if let error = error {
+                print("Error fetching messages: \(error)")
+                return
+            }
 
-                if let json = json {
-                    if let messagesData = json["messages"] as? [[String: Any]] {
-                        self.messages = messagesData.compactMap { messageData in
-                            MessagesStructure(
-                                id:messageData["_id"] as? String ?? "",
-                                sender: messageData["sender"] as? String ?? "",
-                                content: messageData["content"] as? String ?? "",
-                                timestamp: messageData["timestamp"] as? String ?? "",
-                                emoji: messageData["emoji"] as? String
-                            )
-                        }
+            if let json = json {
+                if let messagesData = json["messages"] as? [[String: Any]] {
+                    self.messages = messagesData.compactMap { messageData in
+                        MessagesStructure(
+                            id:messageData["_id"] as? String ?? "",
+                            sender: messageData["sender"] as? String ?? "",
+                            content: messageData["content"] as? String ?? "",
+                            timestamp: messageData["timestamp"] as? String ?? "",
+                            emoji: messageData["emoji"] as? String
+                        )
                     }
                 }
             }
-            listenForMessages()
-            socketObject.joinConversation(conversationId: conversationId)
         }
+        listenForMessages()
+        socketObject.joinConversation(conversationId: conversationId)
+    }
+    
+    // Remove the listener when the view disappears
+    func onDisappear() {
+        socketObject.socket.off("new_message_\(conversationId)")
     }
     
     func listenForMessages() {
@@ -189,8 +202,8 @@ struct MessengerView: View {
             self.messages = newMessages
         }
     }
-
  }
+ 
 
 
 // Emoji button view
