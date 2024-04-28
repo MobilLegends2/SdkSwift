@@ -79,9 +79,10 @@ struct IncomingDoubleLineMessage: View {
                         .font(.caption)
                         .foregroundColor(.gray)
                         .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
+                   Text(message.emoji ?? "" )
+                        .foregroundColor(.gray)
                     Spacer()
-              //      EmojiButton() // Add EmojiButton here
-                       // .foregroundColor(.gray)
+
                 }
             }
             Image("incomingTail")
@@ -205,7 +206,7 @@ struct MessengerView: View {
                             sender: messageData["sender"] as? String ?? "",
                             content: messageData["content"] as? String ?? "",
                             timestamp: messageData["timestamp"] as? String ?? "",
-                            emoji: messageData["emoji"] as? String
+                            emoji: (messageData["emojis"] as? [String])?.first ?? ""
                         )
                     }
                 }
@@ -231,6 +232,7 @@ struct MessengerView: View {
 
 
 // Emoji button view
+// Emoji button view
 struct EmojiButton: View {
     @State private var isEmojiPickerPresented = false
     @State private var selectedEmoji: String = "" // Add a state property to hold the selected emoji
@@ -249,8 +251,6 @@ struct EmojiButton: View {
         .overlay(
             EmojiPickerDialog(isPresented: $isEmojiPickerPresented) { emoji in
                 self.selectedEmoji = emoji // Set the selected emoji
-                print(emoji)
-                self.service.addReaction(conversationId: self.conversationId, messageId: self.messageId, reaction: emoji) // Add reaction using the service
             }
             .frame(width: 200, height: 30) // Adjust size as needed
             .padding()
@@ -259,6 +259,11 @@ struct EmojiButton: View {
             .shadow(radius: 5)
             .opacity(isEmojiPickerPresented ? 1 : 0) // Show only when isEmojiPickerPresented is true
         )
+        .onChange(of: selectedEmoji) { emoji in
+            if !emoji.isEmpty {
+                service.addReaction(messageId: self.messageId, reaction: emoji) // Add reaction using the service
+            }
+        }
     }
 }
 

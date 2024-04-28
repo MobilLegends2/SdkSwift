@@ -124,7 +124,7 @@ class SocketObject: ObservableObject {
                                 sender: messageData["sender"] as? String ?? "",
                                 content: messageData["content"] as? String ?? "",
                                 timestamp: messageData["timestamp"] as? String ?? "",
-                                emoji: messageData["emoji"] as? String
+                                emoji: (messageData["emojis"] as? [String])?.first ?? ""
                             )
                         }
                         DispatchQueue.main.async {
@@ -155,7 +155,7 @@ class SocketObject: ObservableObject {
                         sender: messageData["sender"] as? String ?? "",
                         content: messageData["content"] as? String ?? "",
                         timestamp: messageData["timestamp"] as? String ?? "",
-                        emoji: messageData["emoji"] as? String
+                        emoji: (messageData["emojis"] as? [String])?.first ?? ""
                     )
                 }
             }
