@@ -4,6 +4,7 @@ struct User: Identifiable {
     let id = UUID()
     let name: String
     let status: String
+    let image: String
 }
 
 struct Conversation: Identifiable {
@@ -148,9 +149,9 @@ struct ContentView: View {
     }
     
     private let users = [
-        User(name: "Alice", status: "Online"),
-        User(name: "Bob", status: "Offline"),
-        User(name: "Charlie", status: "Online"),
+        User(name: "Alice", status: "Online", image: "Alice"),
+        User(name: "Bob", status: "Offline", image: "Bob"),
+        User(name: "Charlie", status: "Online", image: "Charlie"),
         // Add more users as needed
     ]
     
@@ -171,19 +172,32 @@ struct UserView: View {
 
     var body: some View {
         VStack {
-            Circle()
-                .fill(user.status == "Online" ? Color.green : Color.gray)
+            Image(user.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 50, height: 50)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                .shadow(radius: 3)
             Text(user.name)
         }
     }
 }
+
 
 struct ConversationRow: View {
     let conversation: Conversation
 
     var body: some View {
         HStack {
+            Image(conversation.participantName) // Use a default image or placeholder if the user's image is not available
+                .resizable()
+                .frame(width: 40, height: 40)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                .shadow(radius: 3)
+                .padding(.trailing, 10) // Add some spacing between the image and text
+            
             VStack(alignment: .leading) {
                 Text(conversation.participantName)
                     .font(.headline)
@@ -194,9 +208,13 @@ struct ConversationRow: View {
                     .foregroundColor(.gray)
             }
             .padding(.vertical, 5)
+            
+            Spacer() // Add spacer to push the content to the leading edge
         }
+        .padding(.horizontal) // Add horizontal padding to the whole row
     }
 }
+
 
 struct SearchBar: View {
     @Binding var text: String
