@@ -80,10 +80,7 @@ struct ContentView: View {
                         .hidden()
                     )
                 }
-
-
-
-
+                
                 Divider()
                 
                 List {
@@ -147,6 +144,7 @@ struct ContentView: View {
             }
         }
     }
+
     
     private let users = [
         User(name: "Alice", status: "Online", image: "Alice"),
