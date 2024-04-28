@@ -28,14 +28,22 @@ struct OutgoingDoubleLineMessage: View {
                 .frame(width: 10, height: 10)
                 .padding(.trailing, -5)
             if message.sender != service.currentUser {
-                Image(systemName: "person.circle.fill")
-                    .font(.title)
-                    .foregroundColor(.blue)
+                Image(message.sender)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 30, height: 30)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .shadow(radius: 3)
             }
             if message.sender == service.currentUser {
-                Image(systemName: "person.circle.fill")
-                    .font(.title)
-                    .foregroundColor(.blue)
+                Image(service.currentUser)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 30, height: 30)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .shadow(radius: 3)
             }
         }
     }
@@ -51,9 +59,13 @@ struct IncomingDoubleLineMessage: View {
     var body: some View {
         HStack {
             if message.sender != service.currentUser {
-                Image(systemName: "person.circle.fill")
-                    .font(.title)
-                    .foregroundColor(.blue)
+                Image(message.sender)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 30, height: 30)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .shadow(radius: 3)
             }
             VStack(alignment: .leading) {
                 Text(message.content)
@@ -77,9 +89,13 @@ struct IncomingDoubleLineMessage: View {
                 .frame(width: 10, height: 10)
                 .padding(.leading, -5)
             if message.sender == service.currentUser {
-                Image(systemName: "person.circle.fill")
-                    .font(.title)
-                    .foregroundColor(.blue)
+                Image(service.currentUser)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 30, height: 30)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .shadow(radius: 3)
             }
         }
     }
@@ -105,8 +121,16 @@ struct MessengerView: View {
                     Image(systemName: "arrow.left")
                         .padding(.leading, -10)
                 }
-                
+                Image(senderName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .shadow(radius: 3)
                 VStack(alignment: .leading) {
+                    
+
                     Text(senderName)
                         .font(.title)
                         .foregroundColor(.black)
