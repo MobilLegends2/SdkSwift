@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "agorartcengine_ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
+      "state" : {
+        "revision" : "bc74b9d532588d6b3e021acb7b1d7442fe1bdaba",
+        "version" : "4.3.1"
+      }
+    },
+    {
       "identity" : "socket.io-client-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/socketio/socket.io-client-swift",

@@ -211,9 +211,11 @@ struct MessengerView: View {
 
                 Spacer()
                 
-                Image(systemName: "video.fill")
-                    .font(.title)
-                    .foregroundColor(.blue)
+                NavigationLink(destination: VideoCallView(currentUser: service.currentUser, conversationId: conversationId)) {
+                    Image(systemName: "video.fill")
+                        .font(.title)
+                        .foregroundColor(.blue)
+                }
                 Image(systemName: "phone.fill")
                     .font(.title)
                     .foregroundColor(.blue)

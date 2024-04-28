@@ -10,6 +10,7 @@
 		D104DE132BDD6CF9004531AF /* SocketObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D104DE122BDD6CF9004531AF /* SocketObject.swift */; };
 		D104DE152BDD75D9004531AF /* JSONUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D104DE142BDD75D9004531AF /* JSONUtility.swift */; };
 		D104DE182BDD7B3C004531AF /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = D104DE172BDD7B3C004531AF /* SocketIO */; };
+		D11728292BDEEE3B00EB7DBD /* RtcBasic in Frameworks */ = {isa = PBXBuildFile; productRef = D11728282BDEEE3B00EB7DBD /* RtcBasic */; };
 		D133B24F2BDAE06F00859A26 /* crosschatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B24E2BDAE06F00859A26 /* crosschatApp.swift */; };
 		D133B2512BDAE06F00859A26 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2502BDAE06F00859A26 /* ContentView.swift */; };
 		D133B2532BDAE07000859A26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D133B2522BDAE07000859A26 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		D133B2802BDAE31300859A26 /* MessengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B27F2BDAE31300859A26 /* MessengerView.swift */; };
 		D133B2822BDAE54400859A26 /* MessagesDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B2812BDAE54400859A26 /* MessagesDataModel.swift */; };
 		D133B2A02BDB049700859A26 /* service.swift in Sources */ = {isa = PBXBuildFile; fileRef = D133B29F2BDB049700859A26 /* service.swift */; };
+		D1F83F4F2BDEDFE400BDA3B4 /* VideoCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F83F4E2BDEDFE400BDA3B4 /* VideoCallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,7 @@
 		D133B27F2BDAE31300859A26 /* MessengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerView.swift; sourceTree = "<group>"; };
 		D133B2812BDAE54400859A26 /* MessagesDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesDataModel.swift; sourceTree = "<group>"; };
 		D133B29F2BDB049700859A26 /* service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = service.swift; sourceTree = "<group>"; };
+		D1F83F4E2BDEDFE400BDA3B4 /* VideoCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCallView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +72,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D104DE182BDD7B3C004531AF /* SocketIO in Frameworks */,
+				D11728292BDEEE3B00EB7DBD /* RtcBasic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +128,7 @@
 				D133B2812BDAE54400859A26 /* MessagesDataModel.swift */,
 				D104DE122BDD6CF9004531AF /* SocketObject.swift */,
 				D104DE142BDD75D9004531AF /* JSONUtility.swift */,
+				D1F83F4E2BDEDFE400BDA3B4 /* VideoCallView.swift */,
 			);
 			path = crosschat;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 			name = crosschat;
 			packageProductDependencies = (
 				D104DE172BDD7B3C004531AF /* SocketIO */,
+				D11728282BDEEE3B00EB7DBD /* RtcBasic */,
 			);
 			productName = crosschat;
 			productReference = D133B24B2BDAE06F00859A26 /* crosschat.app */;
@@ -246,6 +252,7 @@
 			mainGroup = D133B2422BDAE06F00859A26;
 			packageReferences = (
 				D104DE162BDD7B3C004531AF /* XCRemoteSwiftPackageReference "socket" */,
+				D11728272BDEEE3B00EB7DBD /* XCRemoteSwiftPackageReference "AgoraRtcEngine_iOS" */,
 			);
 			productRefGroup = D133B24C2BDAE06F00859A26 /* Products */;
 			projectDirPath = "";
@@ -297,6 +304,7 @@
 				D133B2582BDAE07000859A26 /* Persistence.swift in Sources */,
 				D133B27E2BDAE29B00859A26 /* ChatsView.swift in Sources */,
 				D133B2512BDAE06F00859A26 /* ContentView.swift in Sources */,
+				D1F83F4F2BDEDFE400BDA3B4 /* VideoCallView.swift in Sources */,
 				D104DE132BDD6CF9004531AF /* SocketObject.swift in Sources */,
 				D133B24F2BDAE06F00859A26 /* crosschatApp.swift in Sources */,
 			);
@@ -464,6 +472,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"crosschat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "please enable mic acces";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -492,6 +501,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"crosschat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "please enable mic acces";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -632,6 +642,14 @@
 				kind = branch;
 			};
 		};
+		D11728272BDEEE3B00EB7DBD /* XCRemoteSwiftPackageReference "AgoraRtcEngine_iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AgoraIO/AgoraRtcEngine_iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -639,6 +657,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D104DE162BDD7B3C004531AF /* XCRemoteSwiftPackageReference "socket" */;
 			productName = SocketIO;
+		};
+		D11728282BDEEE3B00EB7DBD /* RtcBasic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D11728272BDEEE3B00EB7DBD /* XCRemoteSwiftPackageReference "AgoraRtcEngine_iOS" */;
+			productName = RtcBasic;
 		};
 /* End XCSwiftPackageProductDependency section */
 
