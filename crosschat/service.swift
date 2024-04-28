@@ -93,7 +93,7 @@ class Service {
         }.resume()
     }
     func addReaction( messageId: String, reaction: String) {
-        let url = URL(string: "http://\(ipAddress)/messages/\(messageId)/emoji")!
+        let url = URL(string: "http://\(ipAddress)/message/\(messageId)/emoji")!
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -112,6 +112,7 @@ class Service {
             
             print("Reaction added successfully")
         }.resume()
+        
     }
     func deleteConversation(conversationId: String, completion: @escaping (Error?) -> Void) {
         let url = URL(string: "http://\(ipAddress)/conversations/\(conversationId)")!

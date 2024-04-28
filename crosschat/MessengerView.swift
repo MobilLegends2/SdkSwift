@@ -262,6 +262,8 @@ struct EmojiButton: View {
         .onChange(of: selectedEmoji) { emoji in
             if !emoji.isEmpty {
                 service.addReaction(messageId: self.messageId, reaction: emoji) // Add reaction using the service
+                
+                
             }
         }
     }
