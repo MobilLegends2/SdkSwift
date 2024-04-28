@@ -10,7 +10,7 @@ import SocketIO
 
 class SocketObject: ObservableObject {
     static var shared = SocketObject()
-    let ipAddress = "http://172.18.23.21:9090"
+    let ipAddress = "http://192.168.169.249:9090"
     let service = Service()
     var manager: SocketManager!
     var socket: SocketIOClient!
@@ -90,11 +90,13 @@ class SocketObject: ObservableObject {
         }
     }
 
-    func sendMessage(conversationId: String, message: String, sender: String) {
+    func sendMessage(conversationId: String, message: String, sender: String, type: String) {
         let messageData: [String: Any] = [
             "sender": sender,
             "conversation": conversationId,
-            "content": message
+            "content": message,
+            "type": type
+
         ]
         socket.emit("new_message_\(conversationId)", messageData)
     }
@@ -122,6 +124,7 @@ class SocketObject: ObservableObject {
                                 sender: messageData["sender"] as? String ?? "",
                                 content: messageData["content"] as? String ?? "",
                                 timestamp: messageData["timestamp"] as? String ?? "",
+                                type: messageData["type"] as? String ?? "",
                                 emoji: (messageData["emojis"] as? [String])?.first ?? ""
                             )
                         }
@@ -152,6 +155,7 @@ class SocketObject: ObservableObject {
                                 sender: messageData["sender"] as? String ?? "",
                                 content: messageData["content"] as? String ?? "",
                                 timestamp: messageData["timestamp"] as? String ?? "",
+                                type: messageData["type"] as? String ?? "",
                                 emoji: (messageData["emojis"] as? [String])?.first ?? ""
                             )
                         }
@@ -183,6 +187,7 @@ class SocketObject: ObservableObject {
                         sender: messageData["sender"] as? String ?? "",
                         content: messageData["content"] as? String ?? "",
                         timestamp: messageData["timestamp"] as? String ?? "",
+                        type: messageData["type"] as? String ?? "",
                         emoji: (messageData["emojis"] as? [String])?.first ?? ""
                     )
                 }

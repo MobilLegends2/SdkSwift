@@ -8,9 +8,9 @@
 import Foundation
 
 class Service {
-    let ipAddress = "172.18.23.21:9090"
+    let ipAddress = "192.168.169.249:9090"
     let conversationId = "10.0.2.2"
-    let currentUser = "Charlie"
+    let currentUser = "participant2"
     func fetchMessages(conversationId: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
         let url = URL(string: "http://\(ipAddress)/conversations/\(conversationId)/messages")!
         
@@ -131,5 +131,45 @@ class Service {
     }
 
 
+    func sendAttachment(conversationId: String, fileURL: URL, completion: @escaping (String?, Error?) -> Void) {
+        let url = URL(string: "http://\(ipAddress)/conversations/\(conversationId)/attachments")!
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        let body = NSMutableData()
+
+        // Add file data to the request body
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"attachment\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+        body.append(try! Data(contentsOf: fileURL))
+        body.append("\r\n".data(using: .utf8)!)
+
+        // Final boundary
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+
+        request.httpBody = body as Data
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(nil, error)
+                return
+            }
+
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let url = json["url"] as? String {
+                    completion(url, nil)
+                } else {
+                    completion(nil, NSError(domain: "ServiceError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to send attachment"]))
+                }
+            } catch {
+                completion(nil, error)
+            }
+        }.resume()
+    }
 
 }

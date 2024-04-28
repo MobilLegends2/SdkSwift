@@ -7,20 +7,55 @@ struct OutgoingDoubleLineMessage: View {
     let outgoingBubble = Color(#colorLiteral(red: 0.03921568627, green: 0.5176470588, blue: 1, alpha: 1))
     let senderName = "Arafet"
     let service = Service()
+    
     var body: some View {
         HStack {
-            VStack(alignment: .trailing) {
-                Text(message.content)
-                    .font(.body)
-                    .padding(8)
-                    .foregroundColor(.white)
-                    .background(RoundedRectangle(cornerRadius: 16).fill(outgoingBubble))
-                HStack {
-                    Spacer()
-                    Text(message.timestamp) // Display timestamp
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                        .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
+            if message.type == "attachment" {
+                // Display the image fetched from the attachment URL
+                AsyncImage(url: URL(string: message.content)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 300, height: 200) // Adjust size as needed
+                            .clipped()
+                    case .failure:
+                        // Placeholder or error handling image
+                        Image(systemName: "photo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 300, height: 200) // Adjust size as needed
+                            .clipped()
+                    case .empty:
+                        // Placeholder or loading indicator
+                        ProgressView()
+                    @unknown default:
+                        // Placeholder or error handling image
+                        Image(systemName: "photo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 300, height: 200) // Adjust size as needed
+                            .clipped()
+                    }
+                }
+                .frame(width: 300, height: 200) // Adjust size as needed
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+            } else {
+                // Display text message
+                VStack(alignment: .trailing) {
+                    Text(message.content)
+                        .font(.body)
+                        .padding(8)
+                        .foregroundColor(.white)
+                        .background(RoundedRectangle(cornerRadius: 16).fill(outgoingBubble))
+                    HStack {
+                        Spacer()
+                        Text(message.timestamp) // Display timestamp
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
+                    }
                 }
             }
             Image("outgoingTail")
@@ -49,13 +84,11 @@ struct OutgoingDoubleLineMessage: View {
     }
 }
 
-
-// View for incoming message
-// View for incoming message
 struct IncomingDoubleLineMessage: View {
     let message: MessagesStructure
     let incomingBubble = Color.gray
     let service = Service()
+    
     var body: some View {
         HStack {
             if message.sender != service.currentUser {
@@ -68,21 +101,54 @@ struct IncomingDoubleLineMessage: View {
                     .shadow(radius: 3)
             }
             VStack(alignment: .leading) {
-                Text(message.content)
-                    .font(.body)
-                    .padding(8)
-                    .foregroundColor(.white)
-                    .background(RoundedRectangle(cornerRadius: 16).fill(incomingBubble))
-                
-                HStack {
-                    Text(message.timestamp) // Display timestamp
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                        .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
-                   Text(message.emoji ?? "" )
-                        .foregroundColor(.gray)
-                    Spacer()
-
+                if message.type == "attachment" {
+                    // Display the image fetched from the attachment URL
+                    AsyncImage(url: URL(string: message.content)) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 300, height: 200) // Adjust size as needed
+                                .clipped()
+                        case .failure:
+                            // Placeholder or error handling image
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 300, height: 200) // Adjust size as needed
+                                .clipped()
+                        case .empty:
+                            // Placeholder or loading indicator
+                            ProgressView()
+                        @unknown default:
+                            // Placeholder or error handling image
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 300, height: 200) // Adjust size as needed
+                                .clipped()
+                        }
+                    }
+                    .frame(width: 300, height: 200) // Adjust size as needed
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                } else {
+                    // Display text message
+                    Text(message.content)
+                        .font(.body)
+                        .padding(8)
+                        .foregroundColor(.white)
+                        .background(RoundedRectangle(cornerRadius: 16).fill(incomingBubble))
+                    
+                    HStack {
+                        Text(message.timestamp) // Display timestamp
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
+                        Text(message.emoji ?? "" )
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
                 }
             }
             Image("incomingTail")
@@ -101,7 +167,6 @@ struct IncomingDoubleLineMessage: View {
         }
     }
 }
-
 
 
 
@@ -206,6 +271,7 @@ struct MessengerView: View {
                             sender: messageData["sender"] as? String ?? "",
                             content: messageData["content"] as? String ?? "",
                             timestamp: messageData["timestamp"] as? String ?? "",
+                            type: messageData["type"] as? String ?? "",
                             emoji: (messageData["emojis"] as? [String])?.first ?? ""
                         )
                     }
@@ -306,14 +372,32 @@ struct ComposeArea: View {
     @State private var write: String = ""
     @State private var isSendingMessage = false // Track whether a message is being sent
     @StateObject private var socketObject = SocketObject.shared
+    @State private var selectedFile: URL? = nil // Track the selected file
+    @State private var isFilePickerPresented = false // Track whether the file picker is presented
     
     let conversationId: String // Conversation ID
     let currentUserId: String // Current user ID
 
     var body: some View {
         HStack {
-            Image(systemName: "camera.fill")
-                .font(.title)
+            Button(action: {
+                isFilePickerPresented = true // Show the file picker when the button is pressed
+            }) {
+                Image(systemName: "camera.fill")
+                    .font(.title)
+            }
+            .fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.image]) { result in
+                do {
+                    let selectedURL = try result.get()
+                    self.selectedFile = selectedURL
+                    // Call the sendAttachment function when a file is selected
+                    sendAttachment()
+                } catch {
+                    print("Error selecting file: \(error.localizedDescription)")
+                }
+            }
+
+            
             ZStack {
                 RoundedRectangle(cornerRadius: 18)
                     .stroke()
@@ -347,12 +431,47 @@ struct ComposeArea: View {
         isSendingMessage = true
         
         // Send the message
-        socketObject.sendMessage(conversationId: conversationId, message: write, sender: currentUserId)
+        socketObject.sendMessage(conversationId: conversationId, message: write, sender: currentUserId, type: "text")
         
         // Reset state after message is sent
         isSendingMessage = false
         write = "" // Clear the text field after sending the message
     }
+    private func sendAttachment() {
+        guard let selectedFile = selectedFile else {
+            // Handle case when no file is selected
+            return
+        }
+
+        // Update state to indicate that an attachment is being sent
+        isSendingMessage = true
+
+        // Call the service to upload the attachment
+        let service = Service() // Create an instance of the Service class
+        service.sendAttachment(conversationId: conversationId, fileURL: selectedFile) { (attachmentURL: String?, error: Error?) in
+            if let error = error {
+                // Handle the error
+                print("Error sending attachment: \(error.localizedDescription)")
+                // Reset state
+                DispatchQueue.main.async {
+                    self.isSendingMessage = false
+                }
+                return
+            }
+
+            if let attachmentURL = attachmentURL {
+                // Send the message with the attachment URL
+                self.socketObject.sendMessage(conversationId: self.conversationId, message: attachmentURL, sender: self.currentUserId, type: "attachment")
+
+                // Reset state
+                DispatchQueue.main.async {
+                    self.isSendingMessage = false
+                    self.selectedFile = nil // Clear the selected file
+                }
+            }
+        }
+    }
+
 }
 
 
