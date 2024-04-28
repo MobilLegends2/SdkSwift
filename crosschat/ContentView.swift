@@ -110,6 +110,7 @@ struct ContentView: View {
                     secondaryButton: .destructive(Text("Delete")) {
                         if let conversation = conversationToDelete {
                             self.deleteConversation(conversation)
+                            
                         }
                     }
                 )
@@ -159,10 +160,19 @@ struct ContentView: View {
     }
     
     private func deleteConversation(_ conversation: Conversation) {
-        if let index = conversations.firstIndex(where: { $0.id == conversation.id }) {
-            conversations.remove(at: index)
+        service.deleteConversation(conversationId: conversation.id) { error in
+            if let error = error {
+                print("Error deleting conversation: \(error)")
+                // Handle error if needed
+            } else {
+                // Remove the conversation from the list if deletion is successful
+                if let index = conversations.firstIndex(where: { $0.id == conversation.id }) {
+                    conversations.remove(at: index)
+                }
+            }
         }
     }
+
 }
 
 struct UserView: View {

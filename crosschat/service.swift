@@ -113,6 +113,21 @@ class Service {
             print("Reaction added successfully")
         }.resume()
     }
+    func deleteConversation(conversationId: String, completion: @escaping (Error?) -> Void) {
+        let url = URL(string: "http://\(ipAddress)/conversations/\(conversationId)")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let _ = data, error == nil else {
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
 
 
 
