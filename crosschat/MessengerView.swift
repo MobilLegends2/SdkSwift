@@ -175,6 +175,7 @@ struct IncomingDoubleLineMessage: View {
 
 
 struct MessengerView: View {
+    var scrollViewProxy: ScrollViewProxy?
     let service = Service()
     let senderName: String
     let conversationId: String
@@ -225,6 +226,7 @@ struct MessengerView: View {
                     .foregroundColor(.blue)
             }
             .padding()
+            
             
             ScrollView {
                 VStack(spacing: 1) {
@@ -293,12 +295,20 @@ struct MessengerView: View {
         socketObject.socket.off("new_message_\(conversationId)")
     }
     
+    func scrollToBottom() {
+          DispatchQueue.main.async {
+              scrollViewProxy?.scrollTo(messages.count - 1, anchor: .bottom)
+          }
+      }
+    
     func listenForMessages() {
         socketObject.listenForMessages(conversationId: conversationId) { newMessages in
             // Update the messages array with the newly received messages
             self.messages = newMessages
+            scrollToBottom()
         }
     }
+    
  }
  
 
