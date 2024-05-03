@@ -13,6 +13,7 @@ struct MessagesStructure: Identifiable {
     var sender: String
     var content: String
     var timestamp: String
+    var type: String
     var emoji: String? // Added emoji property
 }
 
