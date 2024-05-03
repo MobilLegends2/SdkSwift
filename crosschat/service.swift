@@ -8,7 +8,11 @@
 import Foundation
 
 class Service {
+<<<<<<< Updated upstream
     let ipAddress = "172.18.23.21:9090"
+=======
+    let ipAddress = "192.168.78.249:9090"
+>>>>>>> Stashed changes
     let conversationId = "10.0.2.2"
     let currentUser = "participant2"
     func fetchMessages(conversationId: String, completion: @escaping ([String: Any]?, Error?) -> Void) {

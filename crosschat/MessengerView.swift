@@ -105,7 +105,11 @@ struct MessengerView: View {
                     }
                 
                 VStack(alignment: .leading) {
+<<<<<<< Updated upstream
                     Text(senderName) // Dynamic sender name
+=======
+                    Text(senderName)
+>>>>>>> Stashed changes
                         .font(.title)
                         .foregroundColor(.black)
                         .padding(.leading, 2) // Reduce padding between the online indicator and sender name
@@ -115,6 +119,7 @@ struct MessengerView: View {
                     .frame(width: 10, height: 10)
                 Text("Online")
                     .font(.caption)
+<<<<<<< Updated upstream
                     .foregroundColor(.gray) // Adjust color as needed
 
                 
@@ -124,11 +129,22 @@ struct MessengerView: View {
                     .font(.title)
                     .foregroundColor(.blue)
                 Image(systemName: "phone.fill") // Voice call icon
+=======
+                    .foregroundColor(.gray)
+                Spacer()
+                NavigationLink(destination: VideoCallView(currentUser: service.currentUser, conversationId: conversationId)) {
+                    Image(systemName: "video.fill")
+                        .font(.title)
+                        .foregroundColor(.blue)
+                }
+                Image(systemName: "phone.fill")
+>>>>>>> Stashed changes
                     .font(.title)
                     .foregroundColor(.blue)
             }
             .padding()
             
+<<<<<<< Updated upstream
             ScrollView {
                 VStack(spacing: 1) {
                     ForEach(messages) { message in // Removed the $ sign
@@ -141,15 +157,42 @@ struct MessengerView: View {
                             if message.sender != "participant2" { // Only show EmojiButton for incoming messages
                                 EmojiButton()
                                     .foregroundColor(.gray)
+=======
+            GeometryReader { geometry in
+                ScrollViewReader { scrollView in
+                    ScrollView {
+                        VStack(spacing: 1) {
+                            ForEach(messages.indices, id: \.self) { index in
+                                HStack {
+                                    if messages[index].sender == service.currentUser {
+                                        OutgoingDoubleLineMessage(message: messages[index])
+                                    } else {
+                                        IncomingDoubleLineMessage(message: messages[index])
+                                    }
+                                    if messages[index].sender != service.currentUser {
+                                        EmojiButton(conversationId: conversationId, messageId: messages[index].id, service: service)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .padding()
+                                .id(index)
                             }
                         }
-                        .padding()
+                        .onChange(of: messages.count) { _ in
+                            if messages.count > 0 {
+                                withAnimation {
+                                    scrollView.scrollTo(messages.count - 1, anchor: .bottom)
+                                }
+>>>>>>> Stashed changes
+                            }
+                        }
                     }
                 }
             }
             
             ComposeArea()
         }
+<<<<<<< Updated upstream
         .padding(.bottom) // Add padding to ensure the ComposeArea is above the safe area
        .navigationBarBackButtonHidden(true) // Hide the automatic back button
         
@@ -160,6 +203,27 @@ struct MessengerView: View {
                     print("Error fetching messages: \(error)")
                     return
                 }
+=======
+        .padding(.bottom)
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            onAppear()
+        }
+        .onDisappear{
+            onDisappear()
+        }
+    }
+    
+    
+    func onAppear() {
+        socketObject.socket.connect()
+        
+        service.fetchMessages(conversationId: conversationId) { json, error in
+            if let error = error {
+                print("Error fetching messages: \(error)")
+                return
+            }
+>>>>>>> Stashed changes
 
                 if let json = json {
                     // Parse JSON and update messages array
@@ -177,6 +241,19 @@ struct MessengerView: View {
             }
         }
     }
+<<<<<<< Updated upstream
+=======
+    
+    func onDisappear() {
+        socketObject.socket.off("new_message_\(conversationId)")
+    }
+    
+    func listenForMessages() {
+        socketObject.listenForMessages(conversationId: conversationId) { newMessages in
+            self.messages = newMessages
+        }
+    }
+>>>>>>> Stashed changes
 }
 
 // Emoji button view
