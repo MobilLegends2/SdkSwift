@@ -175,7 +175,6 @@ struct IncomingDoubleLineMessage: View {
 
 
 struct MessengerView: View {
-    var scrollViewProxy: ScrollViewProxy?
     let service = Service()
     let senderName: String
     let conversationId: String
@@ -200,8 +199,6 @@ struct MessengerView: View {
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     .shadow(radius: 3)
                 VStack(alignment: .leading) {
-                    
-
                     Text(senderName)
                         .font(.title)
                         .foregroundColor(.black)
@@ -213,9 +210,7 @@ struct MessengerView: View {
                 Text("Online")
                     .font(.caption)
                     .foregroundColor(.gray)
-
                 Spacer()
-                
                 NavigationLink(destination: VideoCallView(currentUser: service.currentUser, conversationId: conversationId)) {
                     Image(systemName: "video.fill")
                         .font(.title)
@@ -227,35 +222,44 @@ struct MessengerView: View {
             }
             .padding()
             
-            
-            ScrollView {
-                VStack(spacing: 1) {
-                    ForEach(messages.indices, id: \.self) { index in
-                        HStack {
-                            if messages[index].sender == service.currentUser {
-                                OutgoingDoubleLineMessage(message: messages[index]) // Unwrap the binding
-                            } else {
-                                IncomingDoubleLineMessage(message: messages[index]) // Unwrap the binding
-                            }
-                            if messages[index].sender != service.currentUser {
-                                EmojiButton(conversationId: conversationId, messageId: messages[index].id, service: service) // Pass necessary parameters
-                                    .foregroundColor(.gray)
+            GeometryReader { geometry in
+                ScrollViewReader { scrollView in
+                    ScrollView {
+                        VStack(spacing: 1) {
+                            ForEach(messages.indices, id: \.self) { index in
+                                HStack {
+                                    if messages[index].sender == service.currentUser {
+                                        OutgoingDoubleLineMessage(message: messages[index])
+                                    } else {
+                                        IncomingDoubleLineMessage(message: messages[index])
+                                    }
+                                    if messages[index].sender != service.currentUser {
+                                        EmojiButton(conversationId: conversationId, messageId: messages[index].id, service: service)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .padding()
+                                .id(index)
                             }
                         }
-                        .padding()
+                        .onChange(of: messages.count) { _ in
+                            if messages.count > 0 {
+                                withAnimation {
+                                    scrollView.scrollTo(messages.count - 1, anchor: .bottom)
+                                }
+                            }
+                        }
                     }
                 }
             }
-
             
             ComposeArea(conversationId: conversationId, currentUserId: service.currentUser)
         }
         .padding(.bottom)
         .navigationBarBackButtonHidden(true)
-        
         .onAppear {
             onAppear()
-          }
+        }
         .onDisappear{
             onDisappear()
         }
@@ -290,27 +294,17 @@ struct MessengerView: View {
         socketObject.joinConversation(conversationId: conversationId)
     }
     
-    // Remove the listener when the view disappears
     func onDisappear() {
         socketObject.socket.off("new_message_\(conversationId)")
     }
     
-    func scrollToBottom() {
-          DispatchQueue.main.async {
-              scrollViewProxy?.scrollTo(messages.count - 1, anchor: .bottom)
-          }
-      }
-    
     func listenForMessages() {
         socketObject.listenForMessages(conversationId: conversationId) { newMessages in
-            // Update the messages array with the newly received messages
             self.messages = newMessages
-            scrollToBottom()
         }
     }
-    
- }
- 
+}
+
 
 
 // Emoji button view

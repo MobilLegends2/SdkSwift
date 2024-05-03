@@ -253,6 +253,7 @@
 			packageReferences = (
 				D104DE162BDD7B3C004531AF /* XCRemoteSwiftPackageReference "socket" */,
 				D11728272BDEEE3B00EB7DBD /* XCRemoteSwiftPackageReference "AgoraRtcEngine_iOS" */,
+				5859E4A82BE5785800F19A93 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = D133B24C2BDAE06F00859A26 /* Products */;
 			projectDirPath = "";
@@ -636,6 +637,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5859E4A82BE5785800F19A93 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.3;
+			};
+		};
 		D104DE162BDD7B3C004531AF /* XCRemoteSwiftPackageReference "socket" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
