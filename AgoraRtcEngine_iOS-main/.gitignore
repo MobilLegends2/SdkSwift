@@ -1,0 +1,10 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+.swiftpm/
+xcuserdata/
+xcshareddata/
+docc_builder
+*.xcframework*
+docc/
