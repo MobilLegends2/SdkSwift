@@ -472,6 +472,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"crosschat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "please enable camera acces";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "please enable mic acces";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -501,6 +502,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"crosschat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "please enable camera acces";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "please enable mic acces";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

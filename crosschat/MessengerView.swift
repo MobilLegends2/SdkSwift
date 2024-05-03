@@ -51,10 +51,14 @@ struct OutgoingDoubleLineMessage: View {
                         .background(RoundedRectangle(cornerRadius: 16).fill(outgoingBubble))
                     HStack {
                         Spacer()
-                        Text(message.timestamp) // Display timestamp
-                            .font(.caption)
+                        Text(message.emoji ?? "") // Display timestamp
                             .foregroundColor(.gray)
                             .padding(.trailing, 8) // Add some padding between the timestamp and the edge of the bubble
+                        Text(message.timestamp )
+                            .foregroundColor(.gray)
+                            .font(.caption)
+
+                      
                     }
                 }
             }
