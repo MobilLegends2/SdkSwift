@@ -10,7 +10,7 @@ import SocketIO
 
 class SocketObject: ObservableObject {
     static var shared = SocketObject()
-    let ipAddress = "http://192.168.231.249:9090"
+    let ipAddress = "http://192.168.78.249:9090"
     let service = Service()
     var manager: SocketManager!
     var socket: SocketIOClient!
