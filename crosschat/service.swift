@@ -8,7 +8,7 @@
 import Foundation
 
 class Service {
-    let ipAddress = "192.168.78.249:9090"
+    let ipAddress = "192.168.231.138"
     let conversationId = "10.0.2.2"
     let currentUser = "participant2"
     func fetchMessages(conversationId: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
@@ -35,6 +35,7 @@ class Service {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.setValue(ContentView.apiKey, forHTTPHeaderField: "X-Secret-Key")
         let parameters: [String: Any] = [
             "sender": currentUser,
             "content": message,
@@ -55,8 +56,10 @@ class Service {
     }
     func fetchConversations(currentUser: String, completion: @escaping ([[String: Any]]?, Error?) -> Void) {
         let url = URL(string: "http://\(ipAddress)/conversation/\(currentUser)")!
+        var request = URLRequest(url: url)
+        request.setValue(ContentView.apiKey, forHTTPHeaderField: "X-Secret-Key")
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 completion(nil, error)
                 return
@@ -71,10 +74,14 @@ class Service {
             }
         }.resume()
     }
+
     func createOrGetConversation(clickedUserId: String,  completion: @escaping (String?, Error?) -> Void) {
         let url = URL(string: "http://\(ipAddress)/conversation/\(currentUser)/\(clickedUserId)")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET" // or "POST" if you are creating a conversation
+        request.setValue(ContentView.apiKey, forHTTPHeaderField: "X-Secret-Key")
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 completion(nil, error)
                 return
@@ -83,7 +90,6 @@ class Service {
             do {
                 if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any], let conversationId = jsonResponse["_id"] as? String {
                     completion(conversationId, nil)
-                    
                 } else {
                     completion(nil, NSError(domain: "ServiceError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to create or get conversation"]))
                 }
@@ -92,11 +98,13 @@ class Service {
             }
         }.resume()
     }
+
     func addReaction( messageId: String, reaction: String) {
         let url = URL(string: "http://\(ipAddress)/message/\(messageId)/emoji")!
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.setValue(ContentView.apiKey, forHTTPHeaderField: "X-Secret-Key")
         let parameters: [String: Any] = [
             "emoji": reaction, // Ensure that the key is "emoji"
             "user": currentUser
@@ -119,7 +127,8 @@ class Service {
         
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        
+        request.setValue(ContentView.apiKey, forHTTPHeaderField: "X-Secret-Key")
+        request.setValue("é", forHTTPHeaderField: "X-Secret-Key") // Add secret key to the headers
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let _ = data, error == nil else {
                 completion(error)
@@ -136,7 +145,7 @@ class Service {
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-
+        request.setValue(ContentView.apiKey, forHTTPHeaderField: "X-Secret-Key")
         let boundary = "Boundary-\(UUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 

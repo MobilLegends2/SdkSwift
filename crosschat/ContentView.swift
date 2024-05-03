@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     static var currentUser = "participant2"
-    
+    static let apiKey = "your_api_key"
     @State private var isChatsViewPresented = false // State to track if ChatsView is presented
     
     var body: some View {
