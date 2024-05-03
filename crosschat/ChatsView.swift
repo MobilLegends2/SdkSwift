@@ -23,7 +23,7 @@ struct ChatsView: View {
     @State private var destinationView: AnyView? = nil
     @State private var navigateToMessengerView: Bool? = false
     @State private var selectedConversationId: String? = nil // Define selectedConversationId here
-
+    @StateObject private var socketObject = SocketObject.shared
     let service = Service() // Create an instance of the Service class
     var users: [User] // Accept users as parameter
     let currentUser: String

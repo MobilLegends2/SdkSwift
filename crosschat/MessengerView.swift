@@ -190,6 +190,9 @@ struct MessengerView: View {
                 }) {
                     Image(systemName: "arrow.left")
                         .padding(.leading, -10)
+                }.onDisappear {
+                    // Disconnect from socket when leaving the view
+                    socketObject.socket.disconnect()
                 }
                 Image(senderName)
                     .resizable()
