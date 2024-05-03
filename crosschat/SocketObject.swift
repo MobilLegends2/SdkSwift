@@ -88,17 +88,50 @@ class SocketObject: ObservableObject {
     }
 
     func listenForMessages(conversationId: String, completion: @escaping ([MessagesStructure]) -> Void) {
+        // Listen for new messages
         socket.on("new_message_\(conversationId)") { [weak self] (data, ack) in
             guard let self = self else { return }
-
+            
             print("New message received:", data)
-
+            
+            // Fetch messages using the Service
             self.service.fetchMessages(conversationId: conversationId) { json, error in
                 if let error = error {
                     print("Error fetching messages: \(error)")
                     return
                 }
-
+                
+                if let json = json {
+                    if let messagesData = json["messages"] as? [[String: Any]] {
+                        let messages = messagesData.compactMap { messageData in
+                            MessagesStructure(
+                                id: messageData["_id"] as? String ?? "",
+                                sender: messageData["sender"] as? String ?? "",
+                                content: messageData["content"] as? String ?? "",
+                                timestamp: messageData["timestamp"] as? String ?? "",
+                                type: messageData["type"] as? String ?? "",
+                                emoji: (messageData["emojis"] as? [String])?.first ?? ""
+                            )
+                        }
+                        DispatchQueue.main.async {
+                            completion(messages)
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Listen for emoji added event
+        socket.on("emoji_added") { [weak self] (data, ack) in
+            guard let self = self else { return }
+            
+            // Fetch updated messages when emoji is added
+            self.service.fetchMessages(conversationId: conversationId) { json, error in
+                if let error = error {
+                    print("Error fetching messages: \(error)")
+                    return
+                }
+                
                 if let json = json {
                     if let messagesData = json["messages"] as? [[String: Any]] {
                         let messages = messagesData.compactMap { messageData in
@@ -119,4 +152,6 @@ class SocketObject: ObservableObject {
             }
         }
     }
+
+
 }

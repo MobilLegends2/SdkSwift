@@ -10,7 +10,7 @@ import Foundation
 class Service {
    let ipAddress = "192.168.78.249:9090"
     let conversationId = "10.0.2.2"
-    let currentUser = "participant2"
+    let currentUser = ContentView.currentUser
     func fetchMessages(conversationId: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
         let url = URL(string: "http://\(ipAddress)/conversations/\(conversationId)/messages")!
         
